@@ -13,7 +13,7 @@ class AddRole extends Component
 {
     use AuthorizesRequests;
 
-    public $name,$roles;
+    public $name,$guard_name;
 
 
     public function render()
@@ -23,7 +23,7 @@ class AddRole extends Component
 
     public function mount()
     {
-        $this->roles = Roles::all();
+        //$this->roles = Roles::all()->paginate(10);
     }
 
     public function createRole()
@@ -32,10 +32,12 @@ class AddRole extends Component
 
         $this->validate([
             'name' => 'required',
+            'guard_name' => 'required',
         ]);
 
         $new_role = new Roles;
         $new_role->name = $this->name;
+        $new_role->guard_name = $this->guard_name;
         $new_role->save();
 
         return redirect()->to('/roles')->with('status', __('main.role') . ' ' . $new_role->name . ' ' . __('main.role_was_created'));

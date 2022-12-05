@@ -65,5 +65,7 @@ return [
     'forgot_password' => 'Забыли пароль',
     'name' => 'Название',
     'add_role' => 'Добавить роль',
+    'guard_name' => 'Тип защиты',
+    'enter_guard_name' => 'Введите название защиты',
 
 ];

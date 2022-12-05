@@ -40,6 +40,7 @@ Route::get('/getarticles', [App\Http\Controllers\ArticlesController::class, 'get
 
 Route::get('/roles', [App\Http\Controllers\DashboardController::class, 'roles'])->name('roles');
 Route::get('/add-role', [App\Http\Controllers\DashboardController::class, 'add_role'])->name('add-role');
+Route::get('/add-permission', [App\Http\Controllers\DashboardController::class, 'add_permission'])->name('add-permission');
 
 
 Route::post('dashboard-images', [App\Http\Controllers\FileUploadController::class, 'dashboard_images' ])->name('dashboard_images');

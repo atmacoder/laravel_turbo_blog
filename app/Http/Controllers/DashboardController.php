@@ -36,6 +36,10 @@ class DashboardController extends Controller
     {
         return view('dashboard.add_role');
     }
+    public function add_permission()
+    {
+        return view('dashboard.add_permission');
+    }
     public function add_category()
     {
         return view('dashboard.add_category');

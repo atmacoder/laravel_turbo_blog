@@ -63,4 +63,6 @@ return [
     'forgot_password' => 'Forgot password',
     'name' => 'Name',
     'add_role' => 'Add Role',
+    'guard_name' => 'Guard name',
+    'enter_guard_name' => 'Type the name of guard',
 ];

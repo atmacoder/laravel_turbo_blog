@@ -3,20 +3,20 @@
     <td class="col-2">
         <span>{{$category->title}}</span>
             @if(Count($category->subCategories)>0)
-                <div class="card">
             <ul class="list-group list-group-flush">
                 @foreach($category->subCategories as $subCategory)
-                    <li class="list-group-item">
+                    <li class="list-group-item" style="margin-top: 12px;">
                         {{$subCategory->title}}
                         <button wire:click="editCategory({{ $subCategory->id }})"type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button wire:click="openModuleDeleteCategory({{$subCategory}})" type="button" class="btn btn-danger btn-sm">
                             <i class="fa-solid fa-trash" aria-hidden="true"></i>
                         </button>
                             @if(Count($subCategory->categories)>0)
-                            <span style="float: left;padding: 0px 10px; margin-top:4px"><i class="fa fa-arrow-down" aria-hidden="true"></i></span>
+                            <span style="float: left;padding: 0px 10px; margin-top:4px"><i class="fa fa-list" aria-hidden="true"></i></span>
                                 <ul class="mt-2">
                             @foreach($subCategory->categories as $cat)
-                                        <li class="list-group-item">
+                                        <li>
+                                            <span style="float: left;padding: 0px 10px; margin-top:4px"><i class="fa fa-list" aria-hidden="true"></i></span>
                                             {{$cat->title}}
                                             <br />
                                             <button wire:click="editCategory({{ $cat->id }})"type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -30,7 +30,6 @@
                     </li>
                 @endforeach
                 </ul>
-                </div>
             @endif
     </td>
     <td class="col-3">

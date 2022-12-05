@@ -6,7 +6,7 @@
     </div>
 @endif
 
-<form wire:submit.prevent="createRole">
+<form wire:submit.prevent="createPermission">
     <div wire:loading>
         @include('elements.loader')
     </div>
@@ -20,17 +20,7 @@
 
     </div>
 
-    <div class="form-group">
-
-        <label for="InputName">{{__('main.guard_name')}}</label>
-
-        <input type="text" class="form-control" id="InputName" placeholder="{{__('main.enter_guard_name')}}" wire:model.lazy="guard_name">
-
-        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-
-    </div>
-
-    <button type="submit" class="btn btn-primary mt-2">{{__('main.add_role')}}</button>
+    <button type="submit" class="btn btn-primary mt-2">{{__('main.new_category')}}</button>
 
 </form>
 </div>

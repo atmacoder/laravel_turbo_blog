@@ -13,7 +13,8 @@
     </td>
     </td>
     <td class="col-6">
-        {{$article->title}}
+        <h5>{{$article->title}}</h5>
+        <small>  {{$article->category->title}}</small>
     </td>
     <td class="col-3">
         <button wire:click="editArticle({{ $article->id }})" type="button" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></button>

@@ -42,7 +42,7 @@
         <form wire:submit.prevent="updateArticle">
 
             <div wire:loading>
-                @include('livewire.dashboard.articles.resources.views.elements.loader')
+                @include('livewire.elements.loader')
             </div>
 
             <div class="form-group">

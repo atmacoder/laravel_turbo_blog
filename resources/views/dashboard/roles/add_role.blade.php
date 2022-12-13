@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">{{ __('main.add_permission') }}</div>
+        <div class="card-header">{{ __('main.add_role') }}</div>
         <div class="card-body">
-           @livewire('dashboard.roles.add-permission')
+           @livewire('dashboard.roles.role-add')
         </div>
     </div>
 @endsection

@@ -3,17 +3,17 @@
 namespace App\Http\Livewire\Dashboard\Roles;
 
 use Livewire\Component;
-use App\Models\Roles;
-use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use mysql_xdevapi\Exception;
-use Nette\Schema\ValidationException;
 
-class AddRole extends Component
+class RoleAdd extends Component
 {
     use AuthorizesRequests;
 
-    public $name,$guard_name;
+    public $name,$permissions;
+
+    public $selectionPermissions=[];
 
 
     public function render()
@@ -23,7 +23,8 @@ class AddRole extends Component
 
     public function mount()
     {
-        //$this->roles = Roles::all()->paginate(10);
+        $this->permissions = Permission::all();
+        $this->selectionPermissions = Permission::all()->pluck('id')->toArray();
     }
 
     public function createRole()
@@ -31,14 +32,19 @@ class AddRole extends Component
         //validation
 
         $this->validate([
-            'name' => 'required',
-            'guard_name' => 'required',
+            'name' => 'required|unique:roles',
         ]);
 
-        $new_role = new Roles;
+        $new_role = new Role;
         $new_role->name = $this->name;
-        $new_role->guard_name = $this->guard_name;
         $new_role->save();
+
+        $perms  = Permission::whereIn('id',$this->selectionPermissions)->get();
+
+        $new_role->syncPermissions(
+            $perms
+        );
+
 
         return redirect()->to('/roles')->with('status', __('main.role') . ' ' . $new_role->name . ' ' . __('main.role_was_created'));
     }

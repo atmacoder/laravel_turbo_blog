@@ -22,6 +22,7 @@ class ArticleEdit extends Component
 
     public function mount(Request $request)
     {
+
         $article = Article::find($request->input('article_id'));
         $this->article_id = $article->id;
         $this->article = $article;
@@ -96,6 +97,9 @@ class ArticleEdit extends Component
             'category_id' => 'required',
             'slug' => 'required',
         ]);
+        $category = Category::findOrFail($this->category_id);
+        //$user = auth::user();
+        //$user->hasPermissionTo('publish articles', 'admin');
 
         $article = Article::find($this->article_id);
         $article->category_id = $this->category_id;

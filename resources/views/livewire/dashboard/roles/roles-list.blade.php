@@ -6,7 +6,6 @@
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">{{__('main.name')}}</th>
-                    <th scope="col">{{__('main.guard_name')}}</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -14,10 +13,24 @@
                 @foreach($roles as $index => $role)
                     <tr>
                     <td>{{$role->id}}</td>
-                    <td>{{$role->name}}</td>
-                    <td>{{$role->guard_name}}</td>
                     <td>
-                        <button wire:click="openModuleDeleteRole({{$role}})" type="button" class="btn btn-danger btn-sm">
+                        {{$role->name}}
+                        <div class="card">
+                            <ul style="list-style-type: disc !important;">
+                            @foreach($role->permissions as $perm)
+                                <li>
+                            <span>{{$perm->name}}</span>
+                                </li>
+                            @endforeach
+                            </ul>
+
+                        </div>
+                    </td>
+                    <td>
+                        <button wire:click="editRole({{$role->id}})" type="button" class="btn btn-primary btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button wire:click="openModuleDeleteRole({{$role->id}})" type="button" class="btn btn-danger btn-sm">
                             <i class="fa-solid fa-trash" aria-hidden="true"></i>
                         </button>
                     </td>

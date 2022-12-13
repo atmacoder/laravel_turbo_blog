@@ -38,6 +38,12 @@ class CategoryEdit extends Component
     }
     public function updateCategory(){
 
+        $this->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'slug' => 'required',
+        ]);
+
         $category = Category::find($this->category_id);
         $category->description = $this->description;
         $category->title = $this->title;

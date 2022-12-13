@@ -8,7 +8,7 @@
 
     <form wire:submit.prevent="updateCategory">
         <div wire:loading>
-            @include('livewire.dashboard.categories.resources.views.elements.loader')
+            @include('livewire.elements.loader')
         </div>
         <div class="form-group">
 

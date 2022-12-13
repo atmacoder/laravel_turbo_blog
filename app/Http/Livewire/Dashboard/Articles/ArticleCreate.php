@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class CreateArticle extends Component
+class ArticleCreate extends Component
 {
     use AuthorizesRequests;
 
@@ -28,7 +28,12 @@ class CreateArticle extends Component
     }
 
     public function mount(){
-        $this->categories = Category::all();
+
+        $categories = Category::all();
+        $this->categories = $categories;
+        if(!Count($this->categories)){
+            return redirect()->to('/add_category')->with('status',__('main.create_category_first'));
+        }
     }
     public function setImages($name){
         array_push($this->images ,$name);
@@ -68,7 +73,7 @@ class CreateArticle extends Component
         $project->image = $images[0]->original_url;
         $project->update();
 
-        return redirect()->to('http://turbo.ru/article-edit?article_id=' . $project->id)->with('status',__('main.article') . $this->title .__('main.created'));
+        return redirect()->to('article-edit?article_id=' . $project->id)->with('status',__('main.article') . $this->title .__('main.created'));
     }
     public function updatedTitle()
     {

@@ -6,8 +6,7 @@ use Livewire\Component;
 use App\Models\Category;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use mysql_xdevapi\Exception;
-use Nette\Schema\ValidationException;
+use Spatie\Permission\Models\Permission;
 
 class CreateCategory extends Component
 {
@@ -57,6 +56,19 @@ class CreateCategory extends Component
         }
 
         $new_category->save();
+
+        Permission::create([
+            'name' => 'create_'.$new_category->slug
+        ]);
+        Permission::create([
+            'name' => 'view_'.$new_category->slug
+        ]);
+        Permission::create([
+            'name' => 'delete_'.$new_category->slug
+        ]);
+        Permission::create([
+            'name' => 'edit_'.$new_category->slug
+        ]);
 
         return redirect()->to('/сategories')->with('status', __('main.category') . ' ' . $new_category->title . ' ' . __('main.category_was_created'));
     }

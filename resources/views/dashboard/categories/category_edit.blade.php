@@ -11,7 +11,7 @@
         </div>
         @endif
 
-        @livewire('dashboard.articles.category-edit')
+        @livewire('dashboard.categories.category-edit')
     </div>
 </div>
 @endsection

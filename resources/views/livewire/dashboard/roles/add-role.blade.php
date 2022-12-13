@@ -22,13 +22,19 @@
 
     <div class="form-group">
 
-        <label for="InputName">{{__('main.guard_name')}}</label>
+        <div class="form-check">
+            @foreach($permissions as $index => $perm)
+                <div wire:key="{{ $index}}">
+                    <input wire:model.defer="selectionPermissions.{{ $index }}" value="{{$permissions[$index]->name}}" type="checkbox" />
+                    <label>{{$permissions[$index]->name}}</label>
+                </div>
+            @endforeach
+        </div>
 
-        <input type="text" class="form-control" id="InputName" placeholder="{{__('main.enter_guard_name')}}" wire:model.lazy="guard_name">
-
-        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
 
     </div>
+
+    @error('permissions') <span class="text-danger">{{ $message }}</span> @enderror
 
     <button type="submit" class="btn btn-primary mt-2">{{__('main.add_role')}}</button>
 

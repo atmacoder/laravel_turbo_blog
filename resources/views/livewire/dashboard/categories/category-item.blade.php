@@ -1,42 +1,42 @@
 <tr>
     <td class="col-1">{{$category->id}}</td>
-    <td class="col-2">
-        <span>{{$category->title}}</span>
-            @if(Count($category->subCategories)>0)
-            <ul class="list-group list-group-flush">
+    <td class="col-6">
+        <ul class="bullet_list" style="padding:0px;list-style-type: disc !important;">
+            <li><span>{{$category->title}}</span></li>
+        </ul>
+        @if(Count($category->subCategories)>0)
+            <ul style="padding:0px">
                 @foreach($category->subCategories as $subCategory)
-                    <li class="list-group-item" style="margin-top: 12px;">
+                    <ul style="position: relative;left: 8px;">
+                    <li>
                         {{$subCategory->title}}
-                        <button wire:click="editCategory({{ $subCategory->id }})"type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button wire:click="openModuleDeleteCategory({{$subCategory}})" type="button" class="btn btn-danger btn-sm">
-                            <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                        </button>
-                            @if(Count($subCategory->categories)>0)
-                            <span style="float: left;padding: 0px 10px; margin-top:4px"><i class="fa fa-list" aria-hidden="true"></i></span>
-                                <ul class="mt-2">
-                            @foreach($subCategory->categories as $cat)
-                                        <li>
-                                            <span style="float: left;padding: 0px 10px; margin-top:4px"><i class="fa fa-list" aria-hidden="true"></i></span>
-                                            {{$cat->title}}
-                                            <br />
-                                            <button wire:click="editCategory({{ $cat->id }})"type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
-                                            <button wire:click="openModuleDeleteCategory({{$cat}})" type="button" class="btn btn-danger btn-sm">
-                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </li>
-                            @endforeach
-                                </ul>
-                            @endif
+                        <i wire:click="editCategory({{ $subCategory->id }})" class="fa-solid fa-pen-to-square"></i>
+                        <i wire:click="openModuleDeleteCategory({{$subCategory}})" class="fa-solid fa-trash" aria-hidden="true"></i>
+                        @if(Count($subCategory->categories)>0)
+                            <ul>
+                                @foreach($subCategory->categories as $cat)
+                                    <li>
+                                        {{$cat->title}}
+                                        <i wire:click="editCategory({{ $cat->id }})"
+                                           class="fa-solid fa-pen-to-square"></i>
+                                        <i wire:click="openModuleDeleteCategory({{$cat}})" class="fa-solid fa-trash"
+                                           aria-hidden="true"></i>
+
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </li>
+                    </ul>
                 @endforeach
-                </ul>
-            @endif
+            </ul>
+        @endif
     </td>
     <td class="col-3">
-        <button wire:click="editCategory({{ $category->id }})"type="button" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button wire:click="editCategory({{ $category->id }})" type="button" class="btn btn-primary"><i
+                class="fa-solid fa-pen-to-square"></i></button>
         <button wire:click="openModuleDeleteCategory({{$category}})" type="button" class="btn btn-danger">
             <i class="fa-solid fa-trash" aria-hidden="true"></i>
         </button>
     </td>
 </tr>
-

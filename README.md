@@ -13,7 +13,9 @@ This is laravel based and livewire admin panel for blog or any content site.
 
 - Create Articles and Multiple categories
 - Multiple upload images by spatie media library
-- Powerfull free WYSIWYG redactor
-- DropZone for Upload Images
+- Powerfull free WYSIWYG editor
+- DropZone for Upload Images or files
 - Spartie roles and permissions
 - Manage Users, Roles, Permissions each category
+- Seo tags, keywords, description fields included
+- Multiple Languages and autodetect lang intergrated

@@ -54,10 +54,20 @@ class CreateSuperUserSeeder extends Seeder
         Permission::create(['name' => 'delete_articles']);
         Permission::create(['name' => 'edit_articles']);
 
+        Permission::create(['name' => 'create_extend_article']);
+        Permission::create(['name' => 'view_extend_article']);
+        Permission::create(['name' => 'delete_extend_article']);
+        Permission::create(['name' => 'edit_extend_article']);
+
+        Permission::create(['name' => 'create_extend_article_types']);
+        Permission::create(['name' => 'view_extend_article_types']);
+        Permission::create(['name' => 'delete_extend_article_types']);
+        Permission::create(['name' => 'edit_extend_article_types']);
+
         $role = Role::find(1);
         $permissions = Permission::pluck('name')->all();
 
         $role->syncPermissions($permissions);
-        
+
     }
 }

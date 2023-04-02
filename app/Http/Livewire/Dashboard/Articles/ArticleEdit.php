@@ -3,15 +3,18 @@
 namespace App\Http\Livewire\Dashboard\Articles;
 
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Arr;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
 use App\Models\Image;
+use App\Models\ExtendArticleTypes;
+use App\Models\ExtendArticle;
 
 class ArticleEdit extends Component
 {
-    public $article, $article_id, $categories, $title, $image, $description, $slug, $metadesc, $metakeys, $image_name;
+    public $article, $article_id, $categories, $title, $image, $description, $slug, $metadesc, $metakeys, $image_name, $extendTypes;
 
     public $category_id = 1;
     public $images = [];
@@ -22,8 +25,8 @@ class ArticleEdit extends Component
 
     public function mount(Request $request)
     {
-
-        $article = Article::find($request->input('article_id'));
+        //$this->extendedTypes = ExtendArticleTypes::all();
+        $article = Article::with('extendTypes')->find($request->input('article_id'));
         $this->article_id = $article->id;
         $this->article = $article;
 
@@ -36,6 +39,19 @@ class ArticleEdit extends Component
         $this->metadesc = $this->article->meta_description;
         $this->metakeys = $this->article->meta_keywords;
 
+        //$this->extendTypes = $this->article->extendTypes->data[0];
+        $this->extendTypes = ExtendArticleTypes::all();
+
+        if($this->article->extendTypes->data){
+            foreach($this->article->extendTypes->data as $key1 => $ext){
+                foreach ($this->extendTypes as $key2 => $ext2){
+                    if($this->article->extendTypes->data[$key1]->id == $this->extendTypes[$key2]->id){
+                        $this->extendTypes[$key2]->value = $this->article->extendTypes->data[$key1]->value;
+                    }
+                }
+            }
+        }
+
         $article = Article::find($this->article_id);
 
         $this->images = $article->getMedia($this->slug)->toArray();
@@ -46,6 +62,7 @@ class ArticleEdit extends Component
     {
         return [
             'images.*.name' => 'required|max:255',
+            'extendTypes.*.value' => 'required|max:255',
         ];
     }
 
@@ -58,7 +75,7 @@ class ArticleEdit extends Component
 
     public function editArticle($article_id)
     {
-        $this->article = \App\Models\Article::find($article_id);
+        $this->article = Article::with('ExtendedTypes')->find($article_id);
     }
 
     public function setImages($name){
@@ -101,7 +118,8 @@ class ArticleEdit extends Component
         //$user = auth::user();
         //$user->hasPermissionTo('publish articles', 'admin');
 
-        $article = Article::find($this->article_id);
+        $article = Article::with('extendTypes')->find($this->article_id);
+
         $article->category_id = $this->category_id;
         $article->title = $this->title;
         $article->description = $this->description;
@@ -118,6 +136,20 @@ class ArticleEdit extends Component
         $article->meta_description = $this->metadesc;
         $article->meta_keywords = $this->metakeys;
         $article->update();
+
+        //attach extendedTypes
+        if($this->extendTypes) {
+            foreach ($this->extendTypes as $key =>$type) {
+                if($type->value){
+                    $extendTypes = Arr::add(['type' => $type->type], 'value', $type->value);
+                }
+            }
+
+            $ExtendArticle = ExtendArticle::where('article_id',$article->id)->first();
+            $ExtendArticle->data = serialize($this->extendTypes);
+            //$ExtendArticle->article_id = $article->id;
+            $ExtendArticle->update();
+        }
 
         //attach images
         if(Count($this->new_images)>0) {

@@ -51,7 +51,15 @@
             <textarea class="form-control" name="description" id="ArticleMessage" placeholder="Enter Body" wire:model.lazy="description"></textarea>
 
         </div>
+        <div class="form-group mt-4">
 
+            @foreach($extendedTypes as $i => $ext)
+                <label>{{$ext->name}}</label>
+                <input type="{{$ext->type}}}" class="form-control" value=""  wire:model="extendedTypes.{{$i}}.value">
+            @endforeach
+
+        </div>
+        <div> @error('extendedTypes') <span class="text-danger">{{ $message }}</span> @enderror</div>
         <div> @error('description') <span class="text-danger">{{ $message }}</span> @enderror</div>
         <div class="form-group mt-2">
 
@@ -59,7 +67,6 @@
             <input type="text" class="form-control mt-2" id="InputMetaDesc"  wire:model.lazy="metadesc">
 
         </div>
-
         <div class="form-group mt-2">
 
             <label for="InputMetaKeys">{{__('main.meta_keys')}}</label>

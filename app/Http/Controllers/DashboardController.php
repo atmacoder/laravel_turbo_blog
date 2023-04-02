@@ -20,6 +20,10 @@ class DashboardController extends Controller
     {
         return view('dashboard.articles.articles');
     }
+    public function metaArticles()
+    {
+        return view('dashboard.articles.articles-metadatas');
+    }
     public function add_article()
     {
         return view('dashboard.articles.add_article');
@@ -47,7 +51,7 @@ class DashboardController extends Controller
     }
     public function сategories()
     {
-        return view('dashboard.Categories.сategories');
+        return view('dashboard.categories.сategories');
     }
 
     public function editCategory(Request $request)
@@ -76,5 +80,20 @@ class DashboardController extends Controller
     {
 
         return view('dashboard.roles.edit_role');
+    }
+    public function extendArticleAdd()
+    {
+
+        return view('dashboard.articles.extend-article-add');
+    }
+    public function extendArticleEdit()
+    {
+
+        return view('dashboard.articles.extend-article-edit');
+    }
+    public function extendArticleList()
+    {
+
+        return view('dashboard.articles.extend-article-list');
     }
 }

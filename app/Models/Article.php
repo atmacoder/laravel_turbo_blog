@@ -43,5 +43,8 @@ class Article extends Model implements HasMedia
     public function category(){
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
+    public function extendTypes(){
+        return $this->hasOne(ExtendArticle::class, 'article_id', 'id');
+    }
 
 }

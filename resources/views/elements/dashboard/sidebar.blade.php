@@ -8,11 +8,20 @@
                 <ul class="dropdown-menu dropdown-menu-lg-end">
                     <li> <a class="nav-link" href="/add-article">{{ __('main.new_article') }}</a></li>
                     <li><a class="nav-link" href="/articles">{{ __('main.articles_list') }}</a></li>
-
+                    <li> <a class="nav-link" href="/articles-meta">{{ __('main.metadata_list') }}</a></li>
                 </ul>
 
             </li>
             @endcan
+                @can('view_extend_article')
+                    <li class="nav-item">
+                        <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.extend_articles') }}</span>
+                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                            <li> <a class="nav-link" href="/extend-article-add">{{ __('main.extend_article_add') }}</a></li>
+                            <li><a class="nav-link" href="/extend-article-list">{{ __('main.extend_article_list') }}</a></li>
+                        </ul>
+                    </li>
+                @endcan
             @can('view_categories')
             <li class="nav-item">
                 <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.categories') }}</span>

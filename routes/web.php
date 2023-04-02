@@ -26,6 +26,12 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dash
 Route::get('/article-edit', [App\Http\Controllers\DashboardController::class, 'editArticle'])->name('article_edit');
 Route::get('/category-edit', [App\Http\Controllers\DashboardController::class, 'editCategory'])->name('category_edit');
 
+Route::get('/articles-meta', [App\Http\Controllers\DashboardController::class, 'metaArticles'])->name('articles_meta');
+
+Route::get('/extend-article-add', [App\Http\Controllers\DashboardController::class, 'extendArticleAdd'])->name('extend_article_add');
+Route::get('/extend-article-edit', [App\Http\Controllers\DashboardController::class, 'extendArticleEdit'])->name('extend_article_edit');
+Route::get('/extend-article-list', [App\Http\Controllers\DashboardController::class, 'extendArticleList'])->name('extend_article_list');
+
 Route::get('/gallery', [App\Http\Controllers\ImagesController::class, 'getimages'])->name('getimages');
 
 Route::get('/add-article', [App\Http\Controllers\DashboardController::class, 'add_article'])->name('add-article');

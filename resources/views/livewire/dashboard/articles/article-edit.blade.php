@@ -97,6 +97,17 @@
             </div>
             <div> @error('description') <span class="text-danger">{{ $message }}</span> @enderror</div>
 
+            @isset($extendTypes)
+
+            <div class="form-group mt-4">
+                @foreach($extendTypes as $i => $ext)
+                    <label class="mb-2">{{$ext->name}}</label>
+                    <input type="{{$ext->type}}}" class="form-control" value=""  wire:model="extendTypes.{{$i}}.value">
+                @endforeach
+
+            </div>
+            <div> @error('extendTypes') <span class="text-danger">{{ $message }}</span> @enderror</div>
+            @endisset
             <div class="form-group mt-2">
 
                 <label for="InputMetaDesc">{{__('main.meta_desc')}}</label>

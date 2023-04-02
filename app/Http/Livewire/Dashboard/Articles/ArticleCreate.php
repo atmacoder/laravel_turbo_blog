@@ -5,22 +5,26 @@ namespace App\Http\Livewire\Dashboard\Articles;
 use Livewire\Component;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\ExtendArticleTypes;
+use App\Models\ExtendArticle;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Arr;
 
 class ArticleCreate extends Component
 {
     use AuthorizesRequests;
 
-    public $title,$description,$slug,$metadesc,$metakeys,$categories,$category_id;
+    public $title,$description,$slug,$metadesc,$metakeys,$categories,$category_id,$extendedTypes;
 
     public $images = [];
 
     protected $rules = [
         'images' => 'required',
+        'extendedTypes.*.value' => '',
     ];
     public function render()
     {
@@ -30,6 +34,7 @@ class ArticleCreate extends Component
     public function mount(){
 
         $categories = Category::all();
+        $this->extendedTypes = ExtendArticleTypes::all();
         $this->categories = $categories;
         if(!Count($this->categories)){
             return redirect()->to('/add_category')->with('status',__('main.create_category_first'));
@@ -41,13 +46,23 @@ class ArticleCreate extends Component
     public function createArticle()
     {
        $user = auth::user();
-
+/*
         $this->validate([
             'title' => 'required',
             'description' => 'required',
             'category_id' => 'required',
             'slug' => 'required',
-        ]);
+        ]);*/
+
+        $extendTypes = $this->extendedTypes;
+
+        if($this->extendedTypes) {
+            foreach ($this->extendedTypes as $key => $type) {
+                if ($type->value == null) {
+                   $extendTypes->forget($key);
+            }
+        }
+        }
 
         $project = Article::create(
             [
@@ -61,19 +76,26 @@ class ArticleCreate extends Component
             ]
         );
 
+            if($extendTypes){
+                $ExtendArticle = new ExtendArticle;
+                $ExtendArticle->data = serialize($extendTypes);
+                $ExtendArticle->article_id = $project->id;
+                $ExtendArticle->save();
+            }
+            
         //attach images
         if(Count($this->images)>0) {
             foreach ($this->images as $file) {
                 $project->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($this->slug);
             }
+
+            $images = $project->getMedia($this->slug);
+            $project->image = $images[0]->original_url;
+            $project->update();
+
         }
 
-        $images = $project->getMedia($this->slug);
-
-        $project->image = $images[0]->original_url;
-        $project->update();
-
-        return redirect()->to('article-edit?article_id=' . $project->id)->with('status',__('main.article') . $this->title .__('main.created'));
+        return redirect()->to('article-edit?article_id=' . $project->id)->with('status',__('main.article') . ' ' . $this->title . ' ' . __('main.created'));
     }
     public function updatedTitle()
     {

@@ -75,6 +75,7 @@ return [
     'permission_name' => 'Permission name',
     'add_permission' => 'Add permission',
     'permissions_list' => 'Permissions list',
+    'permissions' => 'Permissions',
     'select_permission_name' => 'Choose name',
     'create' => 'Create',
     'edit' => 'Edit',

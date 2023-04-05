@@ -42,7 +42,7 @@
             @endcan
             @can('view_permissions')
             <li class="nav-item">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.permission') }}</a>
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.permissions') }}</a>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
                     <li> <a class="nav-link" href="/add-permission">{{ __('main.add_permission') }}</a></li>
                     <li> <a class="nav-link" href="/permissions">{{ __('main.permissions_list') }}</a></li>

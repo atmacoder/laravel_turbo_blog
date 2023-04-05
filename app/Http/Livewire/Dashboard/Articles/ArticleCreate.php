@@ -34,7 +34,7 @@ class ArticleCreate extends Component
     public function mount(){
 
         $categories = Category::all();
-        $this->extendedTypes = ExtendArticleTypes::all();
+        $this->extendedTypes = ExtendArticleTypes::get();
         $this->categories = $categories;
         if(!Count($this->categories)){
             return redirect()->to('/add_category')->with('status',__('main.create_category_first'));
@@ -46,13 +46,13 @@ class ArticleCreate extends Component
     public function createArticle()
     {
        $user = auth::user();
-/*
+
         $this->validate([
             'title' => 'required',
             'description' => 'required',
             'category_id' => 'required',
             'slug' => 'required',
-        ]);*/
+        ]);
 
         $extendTypes = $this->extendedTypes;
 
@@ -63,6 +63,8 @@ class ArticleCreate extends Component
             }
         }
         }
+
+        $extendTypes = $extendTypes->toArray();
 
         $project = Article::create(
             [
@@ -82,7 +84,7 @@ class ArticleCreate extends Component
                 $ExtendArticle->article_id = $project->id;
                 $ExtendArticle->save();
             }
-            
+
         //attach images
         if(Count($this->images)>0) {
             foreach ($this->images as $file) {

@@ -55,17 +55,17 @@
 
             </div>
             @if($image)
-            <div class="form-group">
+                <div class="form-group">
 
-                <label for="InputTitle">{{__('main.article_image')}}</label>
+                    <label for="InputTitle">{{__('main.article_image')}}</label>
 
-                <div class="card">
-                    <div class="card-body">
-                        <img src="{{$image}}" style="max-height: 200px"/>
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{{$image}}" style="max-height: 200px"/>
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
             @endif
             <div class="form-group mt-2">
 
@@ -99,14 +99,38 @@
 
             @isset($extendTypes)
 
-            <div class="form-group mt-4">
-                @foreach($extendTypes as $i => $ext)
-                    <label class="mb-2">{{$ext->name}}</label>
-                    <input type="{{$ext->type}}}" class="form-control" value=""  wire:model="extendTypes.{{$i}}.value">
-                @endforeach
 
-            </div>
-            <div> @error('extendTypes') <span class="text-danger">{{ $message }}</span> @enderror</div>
+                @foreach($extendTypes as $i => $ext)
+
+                    <div class="form-group mt-4">
+
+
+
+                        <label class="mr-2">{{$ext->name}}</label>
+
+                        @if($ext->type == "text")
+                            <input type="{{$ext->type}}" class="form-control" value=""  wire:model="extendTypes.{{$i}}.value" />
+                        @endif
+
+                        @if($ext->type == "number")
+                            <input type="{{$ext->type}}" class="form-control" value=""  wire:model="extendTypes.{{$i}}.value" />
+                        @endif
+
+                        @if($ext->type == "boolean")
+                            <input class="ml-2 form-check-input" type="checkbox" value="false"  wire:model="extendTypes.{{$i}}.value" />
+                        @endif
+
+                        @if($ext->type == "textarea")
+                            <div wire:ignore>
+                                <div id="extendedTypes-{{$ext->id}}" type="textarea" class="form-control" value=""  wire:model.defer="extendTypes.{{$i}}.value" />
+                            </div>
+                        @endif
+
+
+                    </div>
+
+                @endforeach
+                <div> @error('extendTypes') <span class="text-danger">{{ $message }}</span> @enderror</div>
             @endisset
             <div class="form-group mt-2">
 
@@ -130,43 +154,63 @@
             <button type="submit" class="btn btn-primary mt-2">{{__('main.update_article')}}</button>
         </form>
         @if($images)
-        <label class="mt-2" for="images">{{__('main.images')}}</label>
-        <div class="row card  mt-2" style="min-height: 220px;margin: 0px 0px 0px 0px;padding: 4px 0px 18px 0px;">
-            <div id="images">
-                @foreach($images as $index => $img)
-                    <div class="card" style="float:left;margin-top:10px;margin-right: 10px;"  wire:key="{{$images[$index]['id']}}">
-                        <img src="{{$images[$index]['original_url']}}" style="max-height: 140px" class="card-img-top" />
-                        <div class="card-footer">
-                            <div class="form-group mt-2">
-                            <input type="text" name="item-{{$index}}-name" id="item.{{$index}}.name" wire:model="images.{{$index}}.name" />
-                            </div>
-                            <div class="form-group mt-2 mb-2">
-                            <input type="text" disabled="true" value="{{$images[$index]['original_url']}}" />
-                            </div>
-                            <button class="btn btn-primary" wire:click="setArticleMainImg({{$index}})">
-                                @if($images[$index]['original_url'] == $image)
-                                <i class="fa fa-star" style="color:gold" aria-hidden="true"></i>
-                                @else
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                @endif
-                            </button>
-                            <button class="btn btn-danger" wire:click="deleteImage({{$index}})">
+            <label class="mt-2" for="images">{{__('main.images')}}</label>
+            <div class="row card  mt-2" style="min-height: 220px;margin: 0px 0px 0px 0px;padding: 4px 0px 18px 0px;">
+                <div id="images">
+                    @foreach($images as $index => $img)
+                        <div class="card" style="float:left;margin-top:10px;margin-right: 10px;"  wire:key="{{$images[$index]['id']}}">
+                            <img src="{{$images[$index]['original_url']}}" style="max-height: 140px" class="card-img-top" />
+                            <div class="card-footer">
+                                <div class="form-group mt-2">
+                                    <input type="text" name="item-{{$index}}-name" id="item.{{$index}}.name" wire:model="images.{{$index}}.name" />
+                                </div>
+                                <div class="form-group mt-2 mb-2">
+                                    <input type="text" disabled="true" value="{{$images[$index]['original_url']}}" />
+                                </div>
+                                <button class="btn btn-primary" wire:click="setArticleMainImg({{$index}})">
+                                    @if($images[$index]['original_url'] == $image)
+                                        <i class="fa fa-star" style="color:gold" aria-hidden="true"></i>
+                                    @else
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    @endif
+                                </button>
+                                <button class="btn btn-danger" wire:click="deleteImage({{$index}})">
                                     <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                            </button>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
-        <br />
+            <br />
         @endif
 
         <script src="https://cdn.ckeditor.com/4.16.1/full/ckeditor.js"></script>
         <script>
+
             const editor = CKEDITOR.replace('description');
+
             editor.on('change', function(event){
-            @this.set('description', event.editor.getData())
-            })
+            @this.set('description', event.editor.getData());
+            });
+
+            var editors = @js($extendTypes);
+
+            console.log(editors)
+
+            for (let key in  editors) {
+                if (editors[key]['type']== "textarea") {
+                    const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']));
+
+                    neweditor.on('change', function(event){
+                        console.log(event.editor.getData())
+                        //@this.set('description', event.editor.getData());
+                    });
+
+
+
+                }
+            }
         </script>
     </div>
 

@@ -40,13 +40,13 @@ class ArticleEdit extends Component
         $this->metakeys = $this->article->meta_keywords;
 
         //$this->extendTypes = $this->article->extendTypes->data[0];
-        $this->extendTypes = ExtendArticleTypes::all();
+        $this->extendTypes = ExtendArticleTypes::get();
 
-        if($this->article->extendTypes->data){
+        if($this->article->extendTypes && $this->article->extendTypes->data){
             foreach($this->article->extendTypes->data as $key1 => $ext){
                 foreach ($this->extendTypes as $key2 => $ext2){
-                    if($this->article->extendTypes->data[$key1]->id == $this->extendTypes[$key2]->id){
-                        $this->extendTypes[$key2]->value = $this->article->extendTypes->data[$key1]->value;
+                    if($this->article->extendTypes->data[$key1]['id'] == $this->extendTypes[$key2]->id){
+                        $this->extendTypes[$key2]->value = $this->article->extendTypes->data[$key1]['value'];
                     }
                 }
             }

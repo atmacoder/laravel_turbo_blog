@@ -48,17 +48,40 @@
 
             <label for="description">{{__('main.description')}}</label>
 
-            <textarea class="form-control" name="description" id="ArticleMessage" placeholder="Enter Body" wire:model.lazy="description"></textarea>
+            <textarea class="form-control" name="description" id="ArticleMessage" placeholder="Enter Body" wire:model.defer="description"></textarea>
 
         </div>
-        <div class="form-group mt-4">
 
-            @foreach($extendedTypes as $i => $ext)
-                <label>{{$ext->name}}</label>
-                <input type="{{$ext->type}}}" class="form-control" value=""  wire:model="extendedTypes.{{$i}}.value">
-            @endforeach
+        @foreach($extendedTypes as $i => $ext)
 
-        </div>
+            <div class="form-group mt-4">
+
+
+
+                <label class="mr-2">{{$ext->name}}</label>
+
+                @if($ext->type == "text")
+                    <input type="{{$ext->type}}" class="form-control" value=""  wire:model="extendedTypes.{{$i}}.value" />
+                @endif
+
+                @if($ext->type == "number")
+                    <input type="{{$ext->type}}" class="form-control" value=""  wire:model="extendedTypes.{{$i}}.value" />
+                @endif
+
+                @if($ext->type == "boolean")
+                    <input class="ml-2 form-check-input" type="checkbox" value="false"  wire:model="extendedTypes.{{$i}}.value" />
+                @endif
+
+                @if($ext->type == "textarea")
+                    <div wire:ignore>
+                        <div id="extendedTypes-{{$ext->id}}" type="textarea" class="form-control" value=""  wire:model.defer="extendedTypes.{{$i}}.value" />
+                    </div>
+                @endif
+
+
+            </div>
+
+        @endforeach
         <div> @error('extendedTypes') <span class="text-danger">{{ $message }}</span> @enderror</div>
         <div> @error('description') <span class="text-danger">{{ $message }}</span> @enderror</div>
         <div class="form-group mt-2">
@@ -73,57 +96,78 @@
             <input type="text" class="form-control" id="InputMetaKeys"  wire:model.lazy="metakeys">
 
         </div>
-            <div class="form-group mt-2" wire:ignore>
-                <label for="document">{{__('main.images')}}</label>
-                <div class="needsclick dropzone" id="document-dropzone">
-                </div>
+        <div class="form-group mt-2" wire:ignore>
+            <label for="document">{{__('main.images')}}</label>
+            <div class="needsclick dropzone" id="document-dropzone">
             </div>
+        </div>
         <button type="submit" class="btn btn-primary mt-2">{{__('main.create_article')}}</button>
     </form>
     <script>
+
         const editor = CKEDITOR.replace('description');
+
         editor.on('change', function(event){
             console.log(event.editor.getData())
         @this.set('description', event.editor.getData());
-        })
-    </script>
-        <script>
-            var uploadedDocumentMap = {}
-            Dropzone.options.documentDropzone = {
-                url: '{{ route('dashboard_images') }}',
-                maxFilesize: 2, // MB
-                addRemoveLinks: true,
-                dictDefaultMessage: "{{__('main.upload_image_here')}}",
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                },
-                success: function (file, response) {
-                    // $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + response.name + '">')
-                @this.setImages(response.name);
-                    uploadedDocumentMap[file.name] = response.name
-                },
-                removedfile: function (file) {
-                    file.previewElement.remove()
-                    var name = ''
-                    if (typeof file.file_name !== 'undefined') {
-                        name = file.file_name
-                    } else {
-                        name = uploadedDocumentMap[file.name]
-                    }
-                    $('form').find('input[name="document[]"][value="' + name + '"]').remove()
-                },
-                init: function () {
-                    @if(isset($project) && $project->document)
-                    var files =
-                        {!! json_encode($project->document) !!}
-                        for (var i in files) {
-                        var file = files[i]
-                        this.options.addedfile.call(this, file)
-                        file.previewElement.classList.add('dz-complete')
-                        $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + file.file_name + '">')
-                    }
-                    @endif
-                }
+        });
+
+        var editors = @js($extendedTypes);
+
+        console.log(editors)
+
+        for (let key in  editors) {
+            if (editors[key]['type']== "textarea") {
+                console.log(editors[key]['name'])
+                const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']));
+
+                neweditor.on('change', function(event){
+                    console.log(event.editor.getData())
+                    //@this.set('description', event.editor.getData());
+                });
+
+
+
             }
-        </script>
+        }
+    </script>
+    <script>
+        var uploadedDocumentMap = {}
+        Dropzone.options.documentDropzone = {
+            url: '{{ route('dashboard_images') }}',
+            maxFilesize: 2, // MB
+            addRemoveLinks: true,
+            dictDefaultMessage: "{{__('main.upload_image_here')}}",
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function (file, response) {
+                // $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + response.name + '">')
+            @this.setImages(response.name);
+                uploadedDocumentMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                file.previewElement.remove()
+                var name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedDocumentMap[file.name]
+                }
+                $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+            },
+            init: function () {
+                @if(isset($project) && $project->document)
+                var files =
+                    {!! json_encode($project->document) !!}
+                    for (var i in files) {
+                    var file = files[i]
+                    this.options.addedfile.call(this, file)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + file.file_name + '">')
+                }
+                @endif
+            }
+        }
+    </script>
 </div>

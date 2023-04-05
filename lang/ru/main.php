@@ -76,6 +76,7 @@ return [
     'permission' => 'Права',
     'add_permission' => 'Добавить правило',
     'permissions_list' => 'Список правил',
+    'permissions' => 'Правила',
     'guard_name' => 'Тип защиты',
     'enter_guard_name' => 'Введите название защиты',
     'permission_name' => 'Название прав',

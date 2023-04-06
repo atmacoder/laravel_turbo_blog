@@ -118,6 +118,7 @@
 
         for (let key in  editors) {
             if (editors[key]['type']== "textarea") {
+
                 console.log(editors[key]['name'])
                 const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']));
 

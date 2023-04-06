@@ -146,9 +146,22 @@ class ArticleEdit extends Component
             }
 
             $ExtendArticle = ExtendArticle::where('article_id',$article->id)->first();
-            $ExtendArticle->data = serialize($this->extendTypes);
-            //$ExtendArticle->article_id = $article->id;
-            $ExtendArticle->update();
+            $this->extendTypes = $this->extendTypes->toArray();
+
+            if($ExtendArticle){
+                $ExtendArticle->data = serialize($this->extendTypes);
+                //$ExtendArticle->article_id = $article->id;
+                $ExtendArticle->update();
+
+            }
+            else{
+                $ExtendArticle = new ExtendArticle;
+                $ExtendArticle->article_id = $article->id;
+                $ExtendArticle->data = serialize($this->extendTypes);
+                $ExtendArticle->save();
+            }
+
+
         }
 
         //attach images

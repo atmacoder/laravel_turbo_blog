@@ -41,6 +41,10 @@ class DashboardController extends Controller
     {
         return view('dashboard.users.add_user');
     }
+    public function user_api()
+    {
+        return view('dashboard.users.user_api_token');
+    }
     public function edit_user()
     {
         return view('dashboard.users.edit_user');

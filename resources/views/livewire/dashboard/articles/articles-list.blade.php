@@ -1,11 +1,16 @@
 <div>
-    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" wire:model="category">
-        <option selected>Выберите категорию</option>
-        @foreach($categories as $i => $category)
-            <option value="{{$category->id}}">{{$category->title}}</option>
-        @endforeach
+    <div class="row">
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" wire:model="category">
+            <option selected>Выберите категорию</option>
+            @foreach($categories as $i => $category)
+                <option value="{{$category->id}}">{{$category->title}}</option>
+            @endforeach
 
-    </select>
+        </select>
+    </div>
+    <div class="row mb-2">
+        <a href="/add-article" target="_self" style="text-align: right"> <button class="btn btn-primary">Создать материал</button></a>
+    </div>
     <div wire:loading>
         @include('elements.loader')
     </div>

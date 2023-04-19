@@ -90,6 +90,8 @@ return [
     'enter_user_name' => 'Nickname',
     'user_name' => 'User name',
     'update_user' => 'Update user',
+    'user_api_generate' => 'Generate Api key',
+    'user_api' => 'Api key',
     'user' => 'User',
     'enter_email' => 'E-mail',
     'password2' => 'Password again',

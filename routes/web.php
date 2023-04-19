@@ -54,5 +54,6 @@ Route::get('/permissions', [App\Http\Controllers\DashboardController::class, 'pe
 Route::get('/users', [App\Http\Controllers\DashboardController::class, 'users'])->name('users');
 Route::get('/add-user', [App\Http\Controllers\DashboardController::class, 'add_user'])->name('add_user');
 Route::get('/edit-user', [App\Http\Controllers\DashboardController::class, 'edit_user'])->name('edit_user');
+Route::get('/user-api', [App\Http\Controllers\DashboardController::class, 'user_api'])->name('user_api');
 
 Route::post('dashboard-images', [App\Http\Controllers\FileUploadController::class, 'dashboard_images' ])->name('dashboard_images');

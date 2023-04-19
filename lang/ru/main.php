@@ -94,6 +94,8 @@ return [
     'enter_user_name' => 'Никнейм',
     'user_name' => 'Имя пользователя',
     'update_user' => 'Обновить пользователя',
+    'user_api_generate' => 'Сгенерировать Api ключ',
+    'user_api' => 'Api ключ',
     'user' => 'Пользователь',
     'enter_email' => 'E-mail',
     'password2' => 'Пароль еще раз',

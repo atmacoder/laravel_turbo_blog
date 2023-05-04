@@ -8,7 +8,7 @@ use App\Models\Category;
 
 class CategoryEdit extends Component
 {
-    public $category, $categories, $title, $description, $slug, $metadesc, $metakeys, $image_name;
+    public $category, $categories, $title, $description, $current_id ,$slug, $metadesc, $metakeys, $image_name;
 
     public $category_id = 0;
 
@@ -17,7 +17,10 @@ class CategoryEdit extends Component
     public function mount(Request $request)
     {
         $category = Category::find($request->input('category_id'));
+
+        $this->current_id = $request->input('category_id');
         $this->category_id = $category->parent_id;
+
         $this->category =  $category;
         $this->categories = Category::all();
         $this->title = $this->category->title;
@@ -44,7 +47,8 @@ class CategoryEdit extends Component
             'slug' => 'required',
         ]);
 
-        $category = Category::find($this->category_id);
+        $category = Category::find($this->current_id);
+
         $category->description = $this->description;
         $category->title = $this->title;
         $category->slug = $this->slug;
@@ -56,6 +60,8 @@ class CategoryEdit extends Component
         }
 
         $category->update();
+        
+        return redirect()->to('/сategories')->with('status', __('main.category') . ' ' . $category->title . ' ' . __('main.updated'));
     }
 
 }

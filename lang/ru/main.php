@@ -121,4 +121,16 @@ return [
     'delete_extend_article_sure' => 'Вы уверены что хотите удалить ',
     'articles_meta' => 'Мета данные статей',
     'metadata_list' => 'Мета данные',
+    'search_article' => 'Поиск материала',
+    'comments' => 'Комментарии',
+    'comment_name' => 'Имя',
+    'comment_text' => 'Текст',
+    'comment_new' => 'Новый комментарий',
+    'chat_bot_questions' => 'Вопросы боту',
+    'chat_bot_send' => 'Отправить сообщение',
+    'chat_bot_reset' => 'Сбросить диалог',
+    'chat_bot_bot' => 'Чат Бот',
+    'chat_bot_you' => 'Вы',
+    'loading' => 'Загрузка...',
+
 ];

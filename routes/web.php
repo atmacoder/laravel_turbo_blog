@@ -21,11 +21,10 @@ Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
 
-
-
+Route::get('/add-article', [App\Http\Controllers\DashboardController::class, 'add_article'])->name('add-article');
+Route::get('/articles', [App\Http\Controllers\DashboardController::class, 'articles'])->name('articles');
 Route::get('/article-edit', [App\Http\Controllers\DashboardController::class, 'editArticle'])->name('article_edit');
-Route::get('/category-edit', [App\Http\Controllers\DashboardController::class, 'editCategory'])->name('category_edit');
-
+Route::get('/getarticles', [App\Http\Controllers\ArticlesController::class, 'getarticles'])->name('getarticles');
 Route::get('/articles-meta', [App\Http\Controllers\DashboardController::class, 'metaArticles'])->name('articles_meta');
 
 Route::get('/extend-article-add', [App\Http\Controllers\DashboardController::class, 'extendArticleAdd'])->name('extend_article_add');
@@ -34,16 +33,12 @@ Route::get('/extend-article-list', [App\Http\Controllers\DashboardController::cl
 
 Route::get('/gallery', [App\Http\Controllers\ImagesController::class, 'getimages'])->name('getimages');
 
-Route::get('/add-article', [App\Http\Controllers\DashboardController::class, 'add_article'])->name('add-article');
-Route::get('/articles', [App\Http\Controllers\DashboardController::class, 'articles'])->name('articles');
+Route::get('/add-comment', [App\Http\Controllers\DashboardController::class, 'add_comment'])->name('add-comment');
 
-Route::get('/сategories', [App\Http\Controllers\DashboardController::class, 'сategories'])->name('сategories');
 Route::get('/add-сategory', [App\Http\Controllers\DashboardController::class, 'add_category'])->name('add-category');
-
-//form post
+Route::get('/сategories', [App\Http\Controllers\DashboardController::class, 'сategories'])->name('сategories');
 Route::post('/category_add', [App\Http\Controllers\CategoriesController::class, 'category_add'])->name('category_add');
-
-Route::get('/getarticles', [App\Http\Controllers\ArticlesController::class, 'getarticles'])->name('getarticles');
+Route::get('/category-edit', [App\Http\Controllers\DashboardController::class, 'editCategory'])->name('category_edit');
 
 Route::get('/roles', [App\Http\Controllers\DashboardController::class, 'roles'])->name('roles');
 Route::get('/role-edit', [App\Http\Controllers\DashboardController::class, 'editRole'])->name('role_edit');

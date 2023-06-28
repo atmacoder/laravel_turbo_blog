@@ -44,6 +44,9 @@
 
         </div>
 
+        <div class="form-group mt-4" wire:ignore>
+            @livewire('elements.chat-bot')
+        </div>
         <div class="form-group mt-4" wire:ignore >
 
             <label for="description">{{__('main.description')}}</label>
@@ -108,27 +111,18 @@
         const editor = CKEDITOR.replace('description');
 
         editor.on('change', function(event){
-            console.log(event.editor.getData())
         @this.set('description', event.editor.getData());
         });
 
         var editors = @js($extendedTypes);
 
-        console.log(editors)
-
         for (let key in  editors) {
             if (editors[key]['type']== "textarea") {
-
-                console.log(editors[key]['name'])
                 const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']));
-
+                neweditor.setData(editors[key]['value']);
                 neweditor.on('change', function(event){
-                    console.log(event.editor.getData())
-                    //@this.set('description', event.editor.getData());
+                @this.set('extendedTypes.'+key+'.value', event.editor.getData());
                 });
-
-
-
             }
         }
     </script>

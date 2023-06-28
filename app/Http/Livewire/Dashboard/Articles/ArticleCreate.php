@@ -45,7 +45,7 @@ class ArticleCreate extends Component
     }
     public function createArticle()
     {
-       $user = auth::user();
+        $user = auth::user();
 
         $this->validate([
             'title' => 'required',
@@ -55,17 +55,16 @@ class ArticleCreate extends Component
         ]);
 
         $extendTypes = $this->extendedTypes;
+        $extendTypes = $extendTypes->toArray();
 
         if($this->extendedTypes) {
             foreach ($this->extendedTypes as $key => $type) {
                 if ($type->value == null) {
-                   $extendTypes->forget($key);
+                    unset($extendTypes[$key]);
+                }
             }
         }
-        }
-
-        $extendTypes = $extendTypes->toArray();
-
+        dd($extendTypes);
         $project = Article::create(
             [
                 'title' => $this->title,
@@ -78,12 +77,12 @@ class ArticleCreate extends Component
             ]
         );
 
-            if($extendTypes){
-                $ExtendArticle = new ExtendArticle;
-                $ExtendArticle->data = serialize($extendTypes);
-                $ExtendArticle->article_id = $project->id;
-                $ExtendArticle->save();
-            }
+        if($extendTypes){
+            $ExtendArticle = new ExtendArticle;
+            $ExtendArticle->data = serialize($extendTypes);
+            $ExtendArticle->article_id = $project->id;
+            $ExtendArticle->save();
+        }
 
         //attach images
         if(Count($this->images)>0) {

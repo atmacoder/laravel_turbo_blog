@@ -67,6 +67,10 @@ class DashboardController extends Controller
     {
         return view('dashboard.categories.add_category');
     }
+    public function add_comment()
+    {
+        return view('dashboard.comments.add_comment');
+    }
     public function add_role()
     {
         return view('dashboard.roles.add_role');

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Dashboard\Articles;
 
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleItem extends Component
 {
@@ -31,5 +32,12 @@ class ArticleItem extends Component
         $newArticle->save();
 
         return redirect()->route('articles', ['page'=> 1]);
+    }
+    public function mount(){
+        $user = Auth::user();
+        if (!$user->can('view_articles')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
     }
 }

@@ -6,15 +6,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="roleDeleteModalLabel">Delete role {{$role_name}}</h1>
+                    <h1 class="modal-title fs-5" id="roleDeleteModalLabel"> {{ __('main.delete_role') }}  {{$role_name}}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure want to delete {{$role_name}} role?
+                    {{ __('main.sure_delete') }} {{$role_name}}  {{ __('main.role') }} ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button wire:click="deleteRole({{$role_id}})" type="button" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{__('main.no')}}</button>
+                    <button wire:click="deleteRole({{$role_id}})" type="button" class="btn btn-danger">{{__('main.yes')}}</button>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
 
     <script>
         window.onload = function() {
-            Livewire.on('activateModalDelete', () => {
+            Livewire.on('activeModuleDeleteRole', () => {
                 const myModal = new bootstrap.Modal('#roleDeleteModal', {
                     keyboard: false,
                     fade:true,

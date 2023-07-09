@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Article;
 use function LaravelLang\Publisher\Resources\toArray;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesMetadatas extends Component
 
@@ -43,7 +44,12 @@ class ArticlesMetadatas extends Component
     }
 
     public function mount(){
+        $user = Auth::user();
 
+        if (!$user->can('view_articles') || !$user->can('edit_articles')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
     }
 
     public function updatedNewArticles(){

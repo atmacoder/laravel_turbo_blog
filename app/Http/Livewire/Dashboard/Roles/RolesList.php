@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard\Roles;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -25,10 +26,17 @@ class RolesList extends Component
         ]);
     }
     public function mount(){
+
+        $user = Auth::user();
+        if (!$user->can('view_roles')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
+
         $this->permissions = Permission::all();
     }
     public function openModuleDeleteRole($role){
-        $this->emit('activateModalDelete', $role);
+        $this->emit('activeModuleDeleteRole', $role);
     }
 
     public function editRole($id){

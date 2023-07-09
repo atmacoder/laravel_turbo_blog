@@ -7,6 +7,7 @@ use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class PermissionsList extends Component
 {
@@ -27,6 +28,12 @@ class PermissionsList extends Component
     }
     public function mount(){
 
+        $user = Auth::user();
+
+        if (!$user->can('view_permissions')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
     }
 
     public function createPermission()
@@ -44,5 +51,9 @@ class PermissionsList extends Component
         $new_role->save();
 
         return redirect()->to('/roles')->with('status', __('main.role') . ' ' . $new_role->name . ' ' . __('main.role_was_created'));*/
+    }
+
+    public function openModuleDeletePermission($role){
+        $this->emit('activeModuleDeletePermission', $role);
     }
 }

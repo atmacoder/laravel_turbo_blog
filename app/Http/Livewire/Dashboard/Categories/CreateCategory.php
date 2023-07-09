@@ -7,6 +7,7 @@ use App\Models\Category;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 class CreateCategory extends Component
 {
@@ -23,6 +24,13 @@ class CreateCategory extends Component
 
     public function mount()
     {
+        $user = Auth::user();
+
+        if (!$user->can('view_categories') || !$user->can('create_categories')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
+
         $this->categories = Category::all();
     }
 

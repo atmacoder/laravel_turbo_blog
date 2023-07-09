@@ -13,7 +13,13 @@ class UserApiToken extends Component
     {
         return view('livewire.dashboard.users.user-api-token');
     }
-
+    public function mount(){
+        $user = Auth::user();
+        if (!$user->can('view_users') || !$user->can('create_users')  || !$user->can('edit_users')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
+    }
     public function generateKey(){
         $user = Auth::user();
         $user->tokens->each->delete();

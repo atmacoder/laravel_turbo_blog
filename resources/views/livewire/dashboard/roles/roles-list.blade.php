@@ -1,5 +1,6 @@
 <div>
     @if($roles)
+        @livewire('elements.delete-role-modal')
         <ul class="list-group">
             <table class="table table-light table-striped table-hover table-responsive">
                 <thead>
@@ -30,7 +31,7 @@
                         <button wire:click="editRole({{$role->id}})" type="button" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
-                        <button wire:click="openModuleDeleteRole({{$role->id}})" type="button" class="btn btn-danger btn-sm">
+                        <button wire:click="openModuleDeleteRole({{$role}})" type="button" class="btn btn-danger btn-sm">
                             <i class="fa-solid fa-trash" aria-hidden="true"></i>
                         </button>
                     </td>

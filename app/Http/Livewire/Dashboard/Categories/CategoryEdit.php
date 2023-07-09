@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Dashboard\Categories;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryEdit extends Component
 {
@@ -16,6 +17,12 @@ class CategoryEdit extends Component
 
     public function mount(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->can('view_categories') || !$user->can('edit_categories')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
+
         $category = Category::find($request->input('category_id'));
 
         $this->current_id = $request->input('category_id');
@@ -60,7 +67,7 @@ class CategoryEdit extends Component
         }
 
         $category->update();
-        
+
         return redirect()->to('/сategories')->with('status', __('main.category') . ' ' . $category->title . ' ' . __('main.updated'));
     }
 

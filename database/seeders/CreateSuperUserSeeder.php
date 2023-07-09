@@ -64,6 +64,11 @@ class CreateSuperUserSeeder extends Seeder
         Permission::create(['name' => 'delete_extend_article_types']);
         Permission::create(['name' => 'edit_extend_article_types']);
 
+        Permission::create(['name' => 'create_comments']);
+        Permission::create(['name' => 'view_comments']);
+        Permission::create(['name' => 'delete_comments']);
+        Permission::create(['name' => 'edit_comments']);
+
         $role = Role::find(1);
         $permissions = Permission::pluck('name')->all();
 

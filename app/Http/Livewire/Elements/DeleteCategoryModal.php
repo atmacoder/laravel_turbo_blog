@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Elements;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use \App\Models\Category;
 
@@ -15,8 +16,11 @@ class DeleteCategoryModal extends Component
         return view('livewire.elements.delete-category-modal');
     }
     public function mount(){
-        //$this->category_id = 1;
-        //$this->category_name = '123';
+        $user = Auth::user();
+        if (!$user->can('delete_categories')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
     }
     public function activateModalDelete($cat){
         $this->category_id = $cat['id'];

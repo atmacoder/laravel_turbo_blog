@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use App\Models\Category;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriesList extends Component
 {
@@ -23,5 +24,11 @@ class CategoriesList extends Component
 
         ]);
     }
-
+    public function mount(){
+        $user = Auth::user();
+        if (!$user->can('view_categories')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
+    }
 }

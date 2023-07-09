@@ -2,15 +2,26 @@
 
 namespace App\Http\Livewire\Dashboard\Users;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use \App\Models\User;
 
 class UserAdd extends Component
 {
-    public $name,$email,$password,$password2,$role;
+    public $name, $email, $password, $password2, $role;
+
     public function render()
     {
         return view('livewire.dashboard.users.user-add');
+    }
+
+    public function mount()
+    {
+        $user = Auth::user();
+        if (!$user->can('view_users') || !$user->can('create_users')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
     }
 
     public function addUser()

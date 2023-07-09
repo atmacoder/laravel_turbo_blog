@@ -1,5 +1,6 @@
 <div>
     @if($permissions)
+        @livewire('elements.delete-permission-modal')
         <div class="row">
             <div class="col-md-4">
                 <span><a href="/add-permission"><button
@@ -34,7 +35,7 @@
                         <td>{{$permission->name}}</td>
                         <td>{{$permission->guard_name}}</td>
                         <td>
-                            <button wire:click="openModuleDeleteRole({{$permission}})" type="button"
+                            <button wire:click="openModuleDeletePermission({{$permission}})" type="button"
                                     class="btn btn-danger btn-sm">
                                 <i class="fa-solid fa-trash" aria-hidden="true"></i>
                             </button>

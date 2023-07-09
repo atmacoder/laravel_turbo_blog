@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Elements;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use \App\Models\Article;
 
@@ -15,6 +16,11 @@ class DeleteArticleModal extends Component
         return view('livewire.elements.delete-article-modal');
     }
     public function mount(){
+        $user = Auth::user();
+        if (!$user->can('delete_articles')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
     }
     public function activateModalArticleDelete($article){
         $this->article_id = $article['id'];

@@ -6,15 +6,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="categoryDeleteModalLabel">Delete category {{$category_title}}</h1>
+                    <h1 class="modal-title fs-5" id="categoryDeleteModalLabel">{{ __('main.delete_category') }} {{$category_title}}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure want to delete {{$category_title}} category?
+                    {{ __('main.sure_delete') }} {{$category_title}} {{ __('main.this_category') }}?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button wire:click="deleteCategory({{$category_id}})" type="button" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __('main.no') }}</button>
+                    <button wire:click="deleteCategory({{$category_id}})" type="button" class="btn btn-danger">{{ __('main.yes') }}</button>
                 </div>
             </div>
         </div>

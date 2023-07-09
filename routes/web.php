@@ -34,6 +34,7 @@ Route::get('/extend-article-list', [App\Http\Controllers\DashboardController::cl
 Route::get('/gallery', [App\Http\Controllers\ImagesController::class, 'getimages'])->name('getimages');
 
 Route::get('/add-comment', [App\Http\Controllers\DashboardController::class, 'add_comment'])->name('add-comment');
+Route::get('/comments', [App\Http\Controllers\DashboardController::class, 'comments'])->name('comments');
 
 Route::get('/add-сategory', [App\Http\Controllers\DashboardController::class, 'add_category'])->name('add-category');
 Route::get('/сategories', [App\Http\Controllers\DashboardController::class, 'сategories'])->name('сategories');
@@ -45,6 +46,7 @@ Route::get('/role-edit', [App\Http\Controllers\DashboardController::class, 'edit
 Route::get('/add-role', [App\Http\Controllers\DashboardController::class, 'add_role'])->name('add-role');
 Route::get('/add-permission', [App\Http\Controllers\DashboardController::class, 'add_permission'])->name('add-permission');
 Route::get('/permissions', [App\Http\Controllers\DashboardController::class, 'permissions'])->name('permissions');
+Route::get('/no-permission', [App\Http\Controllers\DashboardController::class, 'no_permissions'])->name('no-permissions');
 
 Route::get('/users', [App\Http\Controllers\DashboardController::class, 'users'])->name('users');
 Route::get('/add-user', [App\Http\Controllers\DashboardController::class, 'add_user'])->name('add_user');

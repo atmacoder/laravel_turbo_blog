@@ -13,8 +13,8 @@
                     Are you sure want to delete {{$user->name}} user?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button wire:click="deleteUser({{$user_id}})" type="button" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{__('main.no')}}</button>
+                    <button wire:click="deleteUser({{$user_id}})" type="button" class="btn btn-danger">{{__('main.yes')}}</button>
                 </div>
             </div>
         </div>

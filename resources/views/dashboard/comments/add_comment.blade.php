@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">{{ __('main.new_category') }}</div>
+        <div class="card-header">{{ __('main.comment_new') }}</div>
         <div class="card-body">
             @livewire('dashboard.comments.create-comment')
         </div>

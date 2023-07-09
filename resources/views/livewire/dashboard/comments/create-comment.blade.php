@@ -58,7 +58,7 @@
 
             <label for="description">{{__('main.comment_text')}}</label>
 
-            <textarea name="description" class="form-control" id="CategoryMessage" placeholder="Enter Body" wire:model.lazy.debounce.500ms="description">
+            <textarea name="description" class="form-control" id="CategoryMessage" placeholder="Enter Body" wire:model.lazy.debounce.2500ms="description">
 
             {!! $description !!}
 
@@ -68,7 +68,7 @@
 
         @error('description') <span class="text-danger">{{ $message }}</span> @enderror
 
-        <button type="submit" class="btn btn-primary mt-2">{{__('main.new_comment')}}</button>
+        <button type="submit" class="btn btn-primary mt-2">{{__('main.comment_new')}}</button>
 
     </form>
     <script src="https://cdn.ckeditor.com/4.16.1/full/ckeditor.js"></script>

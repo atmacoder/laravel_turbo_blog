@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
 use \App\Models\ExtendArticleTypes;
+use Illuminate\Support\Facades\Auth;
 
 class ExtendArticleList extends Component
 {
@@ -28,5 +29,12 @@ class ExtendArticleList extends Component
     public function editExtendArticle($id){
         $this->emit('editExtendArticle', $id);
         return redirect()->route('extend_article_edit', ['extend_article_id'=> $id]);
+    }
+    public function mount(){
+        $user = Auth::user();
+        if (!$user->can('view_extend_article_types')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
     }
 }

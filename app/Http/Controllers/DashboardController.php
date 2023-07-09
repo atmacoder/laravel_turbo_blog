@@ -71,6 +71,10 @@ class DashboardController extends Controller
     {
         return view('dashboard.comments.add_comment');
     }
+    public function comments()
+    {
+        return view('dashboard.comments.comment_list');
+    }
     public function add_role()
     {
         return view('dashboard.roles.add_role');
@@ -82,6 +86,10 @@ class DashboardController extends Controller
     public function add_permission()
     {
         return view('dashboard.permissions.add_permission');
+    }
+    public function no_permissions()
+    {
+        return view('dashboard.permissions.noPermission');
     }
 
     public function editRole(Request $request)

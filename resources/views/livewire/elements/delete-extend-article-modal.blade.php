@@ -14,8 +14,8 @@
                     {{__('main.extend_article')}}?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('main.yes')}}</button>
-                    <button wire:click="deleteExtendArticle({{$extend_article_id}})" type="button" class="btn btn-primary">{{__('main.no')}}</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{__('main.no')}}</button>
+                    <button wire:click="deleteExtendArticle({{$extend_article_id}})" type="button" class="btn btn-danger">{{__('main.yes')}}</button>
                 </div>
             </div>
         </div>

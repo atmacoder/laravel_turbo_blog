@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+
 class Article extends Model implements HasMedia
 {
     use HasFactory;
@@ -39,7 +40,9 @@ class Article extends Model implements HasMedia
     public function images(){
         return $this->hasMany(Image::class, 'model_id', 'id');
     }
-
+    public function comments(){
+        return $this->hasMany(Comment::class, 'id', 'article_id');
+    }
     public function category(){
         return $this->hasOne(Category::class, 'id', 'category_id');
     }

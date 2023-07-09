@@ -62,9 +62,9 @@
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.comments') }}</a>
                         <ul class="dropdown-menu dropdown-menu-lg-end">
-                            <li> <a class="nav-link" href="/add-comment">{{ __('main.add_user') }}</a></li>
-  {{--                          <li> <a class="nav-link" href="/users">{{ __('main.users_list') }}</a></li>
-                            <li> <a class="nav-link" href="/user-api">{{ __('main.user_api') }}</a></li>--}}
+                            <li> <a class="nav-link" href="/add-comment">{{ __('main.comment_new') }}</a></li>
+                            <li> <a class="nav-link" href="/comments">{{ __('main.comments') }}</a></li>
+                        {{--    <li> <a class="nav-link" href="/user-api">{{ __('main.user_api') }}</a></li>--}}
                         </ul>
                     </li>
         </ul>

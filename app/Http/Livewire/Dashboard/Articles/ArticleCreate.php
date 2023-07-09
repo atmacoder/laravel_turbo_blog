@@ -33,6 +33,13 @@ class ArticleCreate extends Component
 
     public function mount(){
 
+        $user = Auth::user();
+
+        if (!$user->can('view_articles') || !$user->can('create_articles')  ) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
+
         $categories = Category::all();
         $this->extendedTypes = ExtendArticleTypes::get();
         $this->categories = $categories;
@@ -53,7 +60,7 @@ class ArticleCreate extends Component
             'category_id' => 'required',
             'slug' => 'required',
         ]);
-
+        if ($user->can('create_articles')) {
         $extendTypes = $this->extendedTypes;
         $extendTypes = $extendTypes->toArray();
 
@@ -64,7 +71,7 @@ class ArticleCreate extends Component
                 }
             }
         }
-        dd($extendTypes);
+
         $project = Article::create(
             [
                 'title' => $this->title,
@@ -97,7 +104,10 @@ class ArticleCreate extends Component
         }
 
         return redirect()->to('article-edit?article_id=' . $project->id)->with('status',__('main.article') . ' ' . $this->title . ' ' . __('main.created'));
-    }
+        } else {
+            return redirect()->to('/no-permission');
+        }
+        }
     public function updatedTitle()
     {
         $slug = SlugService::createSlug(Category::class, 'slug', $this->title, ['unique' => false]);

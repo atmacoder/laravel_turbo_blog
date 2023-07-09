@@ -6,6 +6,7 @@ use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 
 class RoleAdd extends Component
 {
@@ -23,6 +24,12 @@ class RoleAdd extends Component
 
     public function mount()
     {
+        $user = Auth::user();
+        if (!$user->can('view_roles')) {
+            $this->skipRender();
+            return redirect()->to('/no-permission');
+        }
+
         $this->permissions = Permission::all();
         $this->selectionPermissions = Permission::all()->pluck('id')->toArray();
     }

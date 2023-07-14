@@ -44,7 +44,7 @@ class ArticleCreate extends Component
         $this->extendedTypes = ExtendArticleTypes::get();
         $this->categories = $categories;
         if(!Count($this->categories)){
-            return redirect()->to('/add_category')->with('status',__('main.create_category_first'));
+            return redirect()->to('/add-category')->with('status',__('main.create_category_first'));
         }
     }
     public function setImages($name){

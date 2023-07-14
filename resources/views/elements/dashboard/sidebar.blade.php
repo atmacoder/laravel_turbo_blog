@@ -59,6 +59,7 @@
                 </ul>
             </li>
             @endcan
+            @can('view_comments')
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.comments') }}</a>
                         <ul class="dropdown-menu dropdown-menu-lg-end">
@@ -67,6 +68,7 @@
                         {{--    <li> <a class="nav-link" href="/user-api">{{ __('main.user_api') }}</a></li>--}}
                         </ul>
                     </li>
+                @endcan
         </ul>
 </div>
 

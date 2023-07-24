@@ -17,15 +17,15 @@
             <input type="text" class="form-control" wire:model="searchTerm">
 
             @if($articles)
-            <ul class="list-group mt-2 mb-2">
-               @foreach($articles as $article)
-                    <li  class="list-group-item">
-                        <p role="button" wire:click="setArticle({{$article}})">
-                            {{ $article->title }}
-                        </p>
-                    </li>
-                @endforeach
-            </ul>
+                <ul class="list-group mt-2 mb-2">
+                    @foreach($articles as $article)
+                        <li  class="list-group-item">
+                            <p role="button" wire:click="setArticle({{$article}})">
+                                {{ $article->title }}
+                            </p>
+                        </li>
+                    @endforeach
+                </ul>
                 {{ $articles->links() }}
             @endif
         </div>
@@ -80,3 +80,8 @@
     </script>
 </div>
 
+<style>
+    .leading-5 svg{
+        max-height: 25px;
+    }
+</style>

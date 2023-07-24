@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Contracts\View\View;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Fetch the Site Settings object
+        view()->composer('*', function(View $view) {
+            $settings = \App\Models\Settings::first();
+            $view->with('settings', $settings);
+        });
     }
 }

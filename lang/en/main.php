@@ -141,4 +141,6 @@ return [
     'delete_permission' => 'Deleting permission',
     'no_permission' => 'No permissions',
     'dashboard.permissions.no_permission' => 'Sorry you not have permission for this action',
+    'dashboard.site-settings' => 'Site settings',
+    'site_settings' => 'Settings',
 ];

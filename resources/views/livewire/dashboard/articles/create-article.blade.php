@@ -106,6 +106,7 @@
         </div>
         <button type="submit" class="btn btn-primary mt-2">{{__('main.create_article')}}</button>
     </form>
+</div>
     <script>
 
         const editor = CKEDITOR.replace('description');
@@ -125,8 +126,6 @@
                 });
             }
         }
-    </script>
-    <script>
         var uploadedDocumentMap = {}
         Dropzone.options.documentDropzone = {
             url: '{{ route('dashboard_images') }}',

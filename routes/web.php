@@ -13,12 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+
 
 Auth::routes();
 
+Route::get('/', [App\Http\Controllers\DashboardController::class, 'main'])->name('main');
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/add-article', [App\Http\Controllers\DashboardController::class, 'add_article'])->name('add-article');
@@ -54,3 +53,5 @@ Route::get('/edit-user', [App\Http\Controllers\DashboardController::class, 'edit
 Route::get('/user-api', [App\Http\Controllers\DashboardController::class, 'user_api'])->name('user_api');
 
 Route::post('dashboard-images', [App\Http\Controllers\FileUploadController::class, 'dashboard_images' ])->name('dashboard_images');
+
+Route::get('/settings', [App\Http\Controllers\DashboardController::class, 'siteSettings'])->name('siteSettings');

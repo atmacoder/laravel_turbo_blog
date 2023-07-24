@@ -13,7 +13,8 @@ class ExtendArticleAdd extends Component
     public $types = [
         [ 'name' => 'text'],
         [ 'name' => 'number'],
-        [ 'name' => 'textarea']
+        [ 'name' => 'textarea'],
+        [ 'name' => 'boolean']
 
     ];
 

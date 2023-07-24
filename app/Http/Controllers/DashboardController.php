@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use  \App\Models\Settings;
 
 class DashboardController extends Controller
 {
@@ -12,8 +13,14 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+    public function main()
+    {
+        return view('index');
+    }
     public function dashboard()
     {
+        $settings = Settings::first();
+
         return view('dashboard.index');
     }
     public function articles()
@@ -111,5 +118,11 @@ class DashboardController extends Controller
     {
 
         return view('dashboard.articles.extend-article-list');
+    }
+
+    public function siteSettings()
+    {
+
+        return view('dashboard.site_settings');
     }
 }

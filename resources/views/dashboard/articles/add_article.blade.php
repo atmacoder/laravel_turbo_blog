@@ -10,7 +10,6 @@
                     {{ session('status') }}
                 </div>
             @endif
-
           @livewire('dashboard.articles.article-create')
         </div>
     </div>

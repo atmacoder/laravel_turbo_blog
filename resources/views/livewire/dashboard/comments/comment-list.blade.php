@@ -103,4 +103,7 @@
     .switch input:checked + .slider:before {
         transform: translateX(1.5em);
     }
+    .leading-5 svg{
+        max-height: 25px;
+    }
 </style>

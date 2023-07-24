@@ -1,6 +1,9 @@
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid border p-2 rounded-3">
-        <a class="navbar-brand ms-4" href="/" data-turbo-method="main">Laravel Turbo Blog</a>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid border p-2 rounded-3 header">
+        <a class="navbar-brand ms-4" href="/" data-turbo-method="main">
+            <img id="logo" src="{{ asset('/storage/') . '/' .$settings['logo']}}" class="rounded-circle mb-3" style="width: 65px;" />
+            <small>{{$settings['name']}}</small>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

@@ -68,7 +68,7 @@ class SiteSettings extends Component
         }
 
         $settings = Settings::first();
-        $settings->name = $this->settings->name;
+        $settings->name = $this->name;
         $settings->data = serialize($this->designSettings);
         $settings->update();
 

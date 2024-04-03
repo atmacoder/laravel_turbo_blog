@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class ArticleItem extends Component
 {
     public $article;
+    public $user;
 
     public function render()
     {
@@ -31,11 +32,12 @@ class ArticleItem extends Component
 
         $newArticle->save();
 
-        return redirect()->route('articles', ['page'=> 1]);
+        return redirect()->route('dashboard-articles', ['page'=> 1]);
     }
     public function mount(){
         $user = Auth::user();
-        if (!$user->can('view_articles')) {
+        $this->user = $user;
+        if (!$user || !$user->can('view_articles')) {
             $this->skipRender();
             return redirect()->to('/no-permission');
         }

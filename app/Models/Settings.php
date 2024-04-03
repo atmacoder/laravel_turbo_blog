@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Settings extends Model
 {
     use HasFactory;
-
+	
+	protected $table = 'settings';
     public $timestamps = false;
 
     public function getDataAttribute($value){

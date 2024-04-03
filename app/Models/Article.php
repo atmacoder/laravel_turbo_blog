@@ -41,7 +41,7 @@ class Article extends Model implements HasMedia
         return $this->hasMany(Image::class, 'model_id', 'id');
     }
     public function comments(){
-        return $this->hasMany(Comment::class, 'id', 'article_id');
+        return $this->hasMany(Comment::class, 'article_id', 'id');
     }
     public function category(){
         return $this->hasOne(Category::class, 'id', 'category_id');

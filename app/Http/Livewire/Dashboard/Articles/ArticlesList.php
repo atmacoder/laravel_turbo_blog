@@ -54,7 +54,7 @@ class ArticlesList extends Component
 
     public function updatingPage($page)
     {
-        return redirect()->to('/articles?page=' . $page . '&category_id=' . $this->category);
+        return redirect()->to('/dashboard-articles?page=' . $page . '&category_id=' . $this->category);
     }
 
     public function updatingCategory($category)
@@ -63,7 +63,7 @@ class ArticlesList extends Component
         $this->page = 1;
         $this->articles = Article::where('category_id', $this->category)->paginate($this->perPage);
 
-        return redirect()->to('/articles?page=1' . '&category_id=' . $this->category);
+        return redirect()->to('/dashboard-articles?page=1' . '&category_id=' . $this->category);
     }
 
 }

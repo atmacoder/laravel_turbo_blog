@@ -17,11 +17,18 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\DashboardController::class, 'main'])->name('main');
+Route::get('/', [App\Http\Controllers\MainController::class, 'main'])->name('main');
+
+Route::get('/articles', [App\Http\Controllers\MainController::class, 'articles'])->name('articles');
+
+Route::get('/{category}/{article}', [App\Http\Controllers\MainController::class, 'article_full'])->name('article-full');
+
+
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/add-article', [App\Http\Controllers\DashboardController::class, 'add_article'])->name('add-article');
-Route::get('/articles', [App\Http\Controllers\DashboardController::class, 'articles'])->name('articles');
+Route::get('/dashboard-articles', [App\Http\Controllers\DashboardController::class, 'articles'])->name('dashboard-articles');
+
 Route::get('/article-edit', [App\Http\Controllers\DashboardController::class, 'editArticle'])->name('article_edit');
 Route::get('/getarticles', [App\Http\Controllers\ArticlesController::class, 'getarticles'])->name('getarticles');
 Route::get('/articles-meta', [App\Http\Controllers\DashboardController::class, 'metaArticles'])->name('articles_meta');
@@ -55,3 +62,6 @@ Route::get('/user-api', [App\Http\Controllers\DashboardController::class, 'user_
 Route::post('dashboard-images', [App\Http\Controllers\FileUploadController::class, 'dashboard_images' ])->name('dashboard_images');
 
 Route::get('/settings', [App\Http\Controllers\DashboardController::class, 'siteSettings'])->name('siteSettings');
+Route::get('/search-results', [App\Http\Controllers\ArticlesController::class, 'searchResults'])->name('searchResults');
+
+Route::get('/{category}', [App\Http\Controllers\MainController::class, 'category'])->name('category');

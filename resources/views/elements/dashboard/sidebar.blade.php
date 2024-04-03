@@ -7,7 +7,7 @@
                 <span class="menu-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.articles') }}</span>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
                     <li> <a class="menu-link" href="/add-article">{{ __('main.new_article') }}</a></li>
-                    <li><a class="menu-link" href="/articles">{{ __('main.articles_list') }}</a></li>
+                    <li><a class="menu-link" href="/dashboard-articles">{{ __('main.articles_list') }}</a></li>
                     <li> <a class="menu-link" href="/articles-meta">{{ __('main.metadata_list') }}</a></li>
                 </ul>
 

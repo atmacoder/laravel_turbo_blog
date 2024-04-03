@@ -8,7 +8,7 @@
 
     <form wire:submit.prevent="createArticle">
 
-        <div wire:loading>
+        <div wire:loading.delay>
             @include('elements.loader')
         </div>
 
@@ -108,8 +108,15 @@
     </form>
 </div>
     <script>
-
-        const editor = CKEDITOR.replace('description');
+        CKEDITOR.plugins.addExternal( 'codesnippet', '/storage/codesnippet/', 'plugin.js' );
+        CKEDITOR.plugins.addExternal('image2', '/storage/image2/', 'plugin.js');
+        CKEDITOR.plugins.addExternal( 'justify', '/storage/justify/', 'plugin.js' );
+        const editor = CKEDITOR.replace('description',{
+            extraPlugins:'codesnippet',
+            extraPlugins: 'image2',
+            extraPlugins:'justify',
+            codeSnippetTheme:'monokia_sublime'
+        });
 
         editor.on('change', function(event){
         @this.set('description', event.editor.getData());

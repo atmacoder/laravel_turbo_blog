@@ -59,8 +59,8 @@ class CategoryEdit extends Component
         $category->description = $this->description;
         $category->title = $this->title;
         $category->slug = $this->slug;
-        $category->metadesc = $this->metadesc;
-        $category->metakeys = $this->metakeys;
+        $category->meta_description = $this->metadesc;
+        $category->meta_keywords = $this->metakeys;
 
         if($this->category_id) {
             $category->parent_id = $this->category_id;

@@ -6,11 +6,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="userDeleteModalLabel">Delete user {{$user->name}}</h1>
+                    <h1 class="modal-title fs-5" id="userDeleteModalLabel">{{__('main.deleting_user')}} {{$user_name}}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure want to delete {{$user->name}} user?
+                    {{__('main.delete_user_sure')}} {{$user_name}} {{__('main.user')}}?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{__('main.no')}}</button>
@@ -22,7 +22,7 @@
 
     <script>
         window.onload = function() {
-            Livewire.on('activateModalDelete', () => {
+            Livewire.on('activeModuleDeleteUser', () => {
                 const myModal = new bootstrap.Modal('#userDeleteModal', {
                     keyboard: false,
                     fade:true,

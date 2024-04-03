@@ -41,8 +41,8 @@
         </script>
         <form wire:submit.prevent="updateArticle">
 
-            <div wire:loading>
-                @include('livewire.elements.loader')
+            <div wire:loading.delay>
+                @include('elements.loader')
             </div>
 
             <div class="form-group">
@@ -87,6 +87,9 @@
                 </select>
                 @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
 
+            </div>
+            <div class="form-group mt-4" wire:ignore>
+                @livewire('elements.chat-bot')
             </div>
             <div class="form-group mt-4" wire:ignore >
 
@@ -186,12 +189,16 @@
         </div>
         <br />
         @endif
-
-        <script src="https://cdn.ckeditor.com/4.16.1/full/ckeditor.js"></script>
         <script>
-
-            const editor = CKEDITOR.replace('description');
-
+            CKEDITOR.plugins.addExternal( 'codesnippet', '/storage/codesnippet/', 'plugin.js' );
+            CKEDITOR.plugins.addExternal('image2', '/storage/image2/', 'plugin.js');
+            CKEDITOR.plugins.addExternal( 'justify', '/storage/justify/', 'plugin.js' );
+            const editor = CKEDITOR.replace('description',{
+                extraPlugins:'codesnippet',
+                extraPlugins: 'image2',
+                extraPlugins:'justify',
+                codeSnippetTheme:'monokia_sublime'
+            });
             editor.on('change', function(event){
             @this.set('description', event.editor.getData());
             });
@@ -203,7 +210,6 @@
                     const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']));
                     neweditor.setData(editors[key]['value']);
                     neweditor.on('change', function(event){
-                        console.log(event.editor.getData())
                     @this.set('extendTypes.'+key+'.value', event.editor.getData());
                     });
 

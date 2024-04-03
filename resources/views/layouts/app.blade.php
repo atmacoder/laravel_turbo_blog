@@ -14,7 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"
             data-turbolinks-track="reload"></script>
-    <script src="https://cdn.ckeditor.com/4.16.1/full/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.20.1/full/ckeditor.js"></script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -28,6 +28,9 @@
             @auth
                 <div class="col-md-2">
                     @include('elements.dashboard.sidebar')
+                    <div wire:loading.delay>
+                        @include('elements.loader')
+                    </div>
                 </div>
             @endauth
             <div class="col-md-10">

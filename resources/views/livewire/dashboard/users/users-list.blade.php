@@ -1,5 +1,6 @@
 <div>
     @if($users)
+        @livewire('elements.delete-user-modal')
         <ul class="list-group">
             <table class="table table-light table-striped table-hover table-responsive">
                 <thead>
@@ -23,7 +24,7 @@
                             <button wire:click="editUser({{$user->id}})" type="button" class="btn btn-primary btn-sm">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <button wire:click="openModuleDeleteUser({{$user->id}})" type="button" class="btn btn-danger btn-sm">
+                            <button wire:click="openModuleDeleteUser({{$user}})" type="button" class="btn btn-danger btn-sm">
                                 <i class="fa-solid fa-trash" aria-hidden="true"></i>
                             </button>
                         </td>

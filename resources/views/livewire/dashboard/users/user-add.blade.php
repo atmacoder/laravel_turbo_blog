@@ -7,7 +7,7 @@
     @endif
 
     <form wire:submit.prevent="addUser">
-        <div wire:loading>
+        <div wire:loading.delay>
             @include('elements.loader')
         </div>
         <div class="form-group">

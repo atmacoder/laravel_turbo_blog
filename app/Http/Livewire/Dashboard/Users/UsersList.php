@@ -12,21 +12,29 @@ class UsersList extends Component
 {
     use AuthorizesRequests;
     use WithPagination;
-
+    
     public function render()
     {
         return view('livewire.dashboard.users.users-list', [
             'users' => User::paginate(10),
         ]);
     }
-    public function editUser($id){
-        return redirect()->route('edit_user', ['user_id'=> $id]);
-    }
+
     public function mount(){
         $user = Auth::user();
         if (!$user->can('view_users')) {
             $this->skipRender();
             return redirect()->to('/no-permission');
         }
+        //$this->users = User::paginate(10);
+    }
+
+    public function editUser($id){
+        return redirect()->route('edit_user', ['user_id'=> $id]);
+    }
+
+
+    public function openModuleDeleteUser($user){
+        $this->emit('activeModuleDeleteUser', $user);
     }
 }

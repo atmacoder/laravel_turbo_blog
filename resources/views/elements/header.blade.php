@@ -1,8 +1,14 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid border p-2 rounded-3 header">
         <a class="navbar-brand ms-4" href="/" data-turbo-method="main">
-            <img id="logo" src="{{ asset('/storage/') . '/' .$settings['logo']}}" class="rounded-circle mb-3" style="width: 65px;" />
-            <small>{{$settings['name']}}</small>
+
+            @if($settings['data']['show_img_logo'] == 1)
+                <img id="logo" src="{{ asset('/storage/') . '/' . $settings['logo'] }}" class="rounded img-thumbnail mb-3" style="height: 80px;">
+            @endif
+
+            @if($settings['data']['show_logo_text'] == 1)
+                <small>{{ $settings['name'] }}</small>
+            @endif
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,8 +35,8 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/" data-turbo-method="main">Main</a>
-                            <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                            <a class="dropdown-item" href="/" data-turbo-method="main">{{ __('main.main') }}</a>
+                            <a class="dropdown-item" href="/dashboard">{{ __('main.dashboard') }}</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -45,10 +51,7 @@
                     </li>
                 @endguest
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+                @livewire('elements.search-bar')
         </div>
     </div>
 </nav>

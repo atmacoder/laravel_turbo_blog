@@ -26,6 +26,8 @@ class SiteSettings extends Component
         'h1_color' => '#000000',
         'menu_link_color' => '#3aaaf7',
         'menu_hover_link_color' => '#10d2f5',
+        'show_img_logo' => false,
+        'show_logo_text' => true,
     ];
 
     public function render()
@@ -44,6 +46,15 @@ class SiteSettings extends Component
         $this->slogan = $settings->slogan;
         $this->designSettings = $settings->data;
 
+        if (!isset($this->designSettings['show_img_logo'])) {
+            // Если ключ 'show_img_logo' отсутствует, устанавливаем значение по умолчанию
+            $this->designSettings['show_img_logo'] = true; // или установите любое другое значение по умолчанию
+        }
+        if (!isset($this->designSettings['show_logo_text'])) {
+            // Если ключ 'show_img_logo' отсутствует, устанавливаем значение по умолчанию
+            $this->designSettings['show_logo_text'] = false; // или установите любое другое значение по умолчанию
+        }
+
     }
 
     public function setImages($name)
@@ -56,8 +67,8 @@ class SiteSettings extends Component
     public function saveSettings()
     {
         if ($this->images && $this->images[0]) {
-            $sourcePath = storage_path('tmp\uploads\\') . $this->images[0];
-            $destinationPath = storage_path('app\public\\') . $this->images[0];
+            $sourcePath = storage_path('tmp/uploads/') . $this->images[0];
+            $destinationPath = storage_path('app/public/') . $this->images[0];
             File::move($sourcePath, $destinationPath);
             if (File::exists($destinationPath)) {
                 $settings = Settings::first();

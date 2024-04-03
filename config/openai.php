@@ -25,4 +25,5 @@ return [
     */
 
     'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 30),
+	'base_uri' => 'api.openai-proxy.com/v1'
 ];

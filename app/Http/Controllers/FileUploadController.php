@@ -15,7 +15,7 @@ class FileUploadController extends Controller
 
     public  function dashboard_images(Request $request)
     {
-        $path = storage_path('tmp\uploads');
+        $path = storage_path('tmp/uploads');
 
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
@@ -66,7 +66,7 @@ class FileUploadController extends Controller
 
         foreach ($request->input('document', []) as $file) {
             if (count($media) === 0 || !in_array($file, $media)) {
-                $project->addMedia(storage_path('tmp\uploads\\' . $file))->toMediaCollection('document');
+                $project->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('document');
             }
         }
 

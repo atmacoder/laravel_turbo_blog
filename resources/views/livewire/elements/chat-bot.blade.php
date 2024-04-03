@@ -14,9 +14,13 @@
                                 @endif
                             </div>
                             <div class="mt-1">
-                                <p class="text-secondary">
+                              
+								<pre class="text-secondary">
+								<code>
                                     {!! \Illuminate\Mail\Markdown::parse($message['content']) !!}
-                                </p>
+								</code>
+								</pre>
+                                
                             </div>
                         </div>
                     </div>

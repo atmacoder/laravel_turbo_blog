@@ -19,6 +19,7 @@
         "@fortawesome/fontawesome-free": "^6.2.0",
         "@hotwired/turbo": "^7.2.4",
         "jquery": "^3.6.1",
+        "turbolinks": "^5.2.0",
         "vite-plugin-copy": "^0.1.6"
     }
 }

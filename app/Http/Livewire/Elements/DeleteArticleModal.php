@@ -17,7 +17,7 @@ class DeleteArticleModal extends Component
     }
     public function mount(){
         $user = Auth::user();
-        if (!$user->can('delete_articles')) {
+        if (!$user || !$user->can('delete_articles')) {
             $this->skipRender();
             return redirect()->to('/no-permission');
         }

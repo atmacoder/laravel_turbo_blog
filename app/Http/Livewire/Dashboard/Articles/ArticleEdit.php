@@ -180,10 +180,10 @@ class ArticleEdit extends Component
             //attach images
             if (Count($this->new_images) > 0) {
                 foreach ($this->new_images as $file) {
-                    $article->addMedia(storage_path('tmp\uploads\\' . $file))->toMediaCollection($this->slug);
+                    $article->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($this->slug);
                 }
             }
-            return redirect()->to('/articles')->with('status', __('main.article') . ' ' . $article->name . ' ' . __('main.updated'));
+            return redirect()->to('/dashboard-articles')->with('status', __('main.article') . ' ' . $article->name . ' ' . __('main.updated'));
         } else {
             return redirect()->to('/no-permission');
         }

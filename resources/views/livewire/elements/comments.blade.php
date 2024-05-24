@@ -1,7 +1,7 @@
 @if($success == false )
     <div class="card-body">
-    <h3 class="mt-2">{{__('main.comment_new')}}</h3>
-<form wire:submit.prevent="store" class="form-inline">
+    <h3 class="mt-2 article-title">{{__('main.comment_new')}}</h3>
+<form wire:submit.prevent="store" class="form-inline comment-form">
 
     <div class=" mt-2 form-group">
         <label class="block uppercase tracking-wide text-grey-darker text-gray-600 text-lg font-bold mb-2"

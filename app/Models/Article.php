@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-
 class Article extends Model implements HasMedia
 {
     use HasFactory;
@@ -49,5 +48,4 @@ class Article extends Model implements HasMedia
     public function extendTypes(){
         return $this->hasOne(ExtendArticle::class, 'article_id', 'id');
     }
-
 }

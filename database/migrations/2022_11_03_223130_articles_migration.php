@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
-            $table->boolean('is_draft')->default(false);
+            $table->boolean('published')->default(true);
+            $table->boolean('arhive')->default(false);
             $table->integer('view_count')->unsigned()->default(0)->index();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

@@ -196,6 +196,7 @@ return [
         App\Providers\EventServiceProvider::class,
         Vluzrmos\LanguageDetector\Providers\LanguageDetectorServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
 
     ],
 
@@ -212,6 +213,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'EloquentSortable' => Spatie\EloquentSortable\Sortable::class,
     ])->toArray(),
 
 ];

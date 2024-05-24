@@ -31,7 +31,7 @@ class Article extends Component
     }
     public function cloneArticle($id){
 
-        $art = \App\Models\Article::find($id);
+        $art = \App\Models\Article::with('extendTypes')->find($id);
 
         $newArticle = $art->replicate()->fill([
             'slug' => $art->slug . Str::random(16)
@@ -43,7 +43,7 @@ class Article extends Component
     }
     public function mount(Request $request, $article_slug, $category_slug)
     {
-        $article = \App\Models\Article::where('slug', $article_slug)->first();
+        $article = \App\Models\Article::where('slug', $article_slug)->with('extendTypes')->first();
         $this->article = $article;
 
         $category = \App\Models\Category::where('slug', $category_slug)->first();

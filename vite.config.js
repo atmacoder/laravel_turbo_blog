@@ -21,6 +21,6 @@ export default defineConfig({
     },
     server: {
         https: false,
-        host: 'zenolbog.ru',
+        host: 'antiq-zen.ru',
     },
 });

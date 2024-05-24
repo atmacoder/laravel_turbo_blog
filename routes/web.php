@@ -19,6 +19,13 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'main'])->name('main');
 
+Route::get('/sitemap.xml',  [App\Http\Controllers\SitemapController::class, 'generate_sitemap_index'])->name('generate_sitemap_index');
+Route::get('/sitemap/generate',  [App\Http\Controllers\SitemapController::class, 'generate_sitemap'])->name('generate_sitemap');
+
+Route::get('/404', function () {
+    return view('errors.404');
+})->name('404');
+
 Route::get('/articles', [App\Http\Controllers\MainController::class, 'articles'])->name('articles');
 
 Route::get('/{category}/{article}', [App\Http\Controllers\MainController::class, 'article_full'])->name('article-full');
@@ -62,6 +69,11 @@ Route::get('/user-api', [App\Http\Controllers\DashboardController::class, 'user_
 Route::post('dashboard-images', [App\Http\Controllers\FileUploadController::class, 'dashboard_images' ])->name('dashboard_images');
 
 Route::get('/settings', [App\Http\Controllers\DashboardController::class, 'siteSettings'])->name('siteSettings');
+Route::get('/menu', [App\Http\Controllers\DashboardController::class, 'siteMenuBuilder'])->name('siteMenuBuilder');
 Route::get('/search-results', [App\Http\Controllers\ArticlesController::class, 'searchResults'])->name('searchResults');
 
 Route::get('/{category}', [App\Http\Controllers\MainController::class, 'category'])->name('category');
+
+Route::fallback(function () {
+    return view('errors.404');
+});

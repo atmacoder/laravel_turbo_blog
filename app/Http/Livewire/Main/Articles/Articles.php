@@ -14,6 +14,8 @@ use Artesaos\SEOTools\Facades\SEOTools;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\TwitterCard;
 use Artesaos\SEOTools\Facades\JsonLd;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Articles extends Component
 {
@@ -22,12 +24,15 @@ class Articles extends Component
 
     public $categories;
     public $category_id = 0;
+    public $category;
     public $user;
+    public $isHomePag;
 
     protected $articles;
 
-    protected $perPage = 10;
-
+    protected $perPage = 50;
+    public $limits = [10, 25, 50, 100, 250, 500];
+    public $selectedLimit = 50;
     protected $paginationTheme = 'bootstrap';
 
     public function render()
@@ -38,35 +43,61 @@ class Articles extends Component
 
     }
 
-    public function mount(Request $request, $articles, $category)
+    public function mount(Request $request, $category)
     {
-
         $user = Auth::user();
         $this->user = $user;
-        if(!$articles) {
-            if ($request->category_id) {
+
+        $this->isHomePag = True;
+
+        if (session()->has('selectedLimit')) {
+            $this->selectedLimit = session()->get('selectedLimit');
+            $this->perPage = $this->selectedLimit;
+        }
+
+        if ($request->category_id && $request->category_id != 0) {
+            $this->category = Category::findOrFail($this->category->id);
+        }
+        if ($category) {
+            $this->category = $category;
+        }
+
+        if(!$this->articles) {
+            if ($request->category_id && $request->category_id != 0) {
                 $this->category_id = $request->category_id;
-                $this->articles = Article::Where('category_id', $request->category_id)->with('comments')->paginate($this->perPage);
+                $this->articles = Article::Where('category_id', $request->category_id)->with('extendTypes')->with('comments')->latest()->paginate($this->perPage);
+                $this->isHomePag = False;
             } else {
-                $this->articles = Article::paginate($this->perPage);
+                    if(!$category){
+                        $this->articles = Article::paginate($this->perPage);
+                        $this->isHomePag = True;
+                    }
+                    else{
+                        $this->articles = Article::Where('category_id', $category->id)->with('extendTypes')->with('comments')->latest()->paginate($this->perPage);
+                        $this->isHomePag = False;
+                    }
+
             }
         }
         else{
-            if($category) {
-                $this->articles = Article::where('category_id', $category->id)->with('comments')->paginate($this->perPage);
+            if($this->category) {
+                $this->articles = Article::where('category_id', $this->category->id)->with('extendTypes')->with('comments')->latest()->paginate($this->perPage);
+                $this->isHomePag = False;
             }
             else{
                 $this->articles = Article::paginate($this->perPage);
+                $this->isHomePag = True;
             }
 
         }
-        if($category){
-            SEOTools::setTitle($category->title);
-            SEOTools::setDescription($category->meta_description);
-            SEOMeta::setKeywords($category->meta_keywords);
+        if($this->category){
+            $this->category_id = $this->category->id;
+            SEOTools::setTitle($this->category->title);
+            SEOTools::setDescription($this->category->meta_description);
+            SEOMeta::setKeywords($this->category->meta_keywords);
 
-            $url = '/' . $category->slug;
-            OpenGraph::setTitle($category->title);
+            $url = '/' . $this->category->slug;
+            OpenGraph::setTitle($this->category->title);
             OpenGraph::setUrl($url);
         }
 
@@ -74,15 +105,35 @@ class Articles extends Component
 
     public function updatingPage($page)
     {
-        return redirect()->to('/articles?page=' . $page . '&category_id=' . $this->category);
+        if($this->category){
+            return redirect()->to($this->category->slug . '?page=' . $page);
+        }
+       else{
+            return redirect()->to('/articles?page=' . $page . '&category_id=' . $this->category_id);
+        }
     }
 
     public function updatingCategory($category)
     {
         $this->category = $category;
         $this->page = 1;
-        $this->articles = Article::where('category_id', $this->category)->with('comments')->paginate($this->perPage);
+
+        $this->articles = Article::where('category_id', $this->category)->with('extendTypes')->with('comments')->paginate($this->perPage);
 
         return redirect()->to('/articles?page=1' . '&category_id=' . $this->category);
+    }
+    public function updatedSelectedLimit()
+    {
+        $this->perPage = $this->selectedLimit;
+        $this->page = 1;
+
+        session()->put('selectedLimit', $this->selectedLimit);
+
+        if($this->category){
+            return redirect()->to($this->category->slug . '?page=' .   $this->page);
+        }
+        else{
+            return redirect()->to('/articles?page=' .   $this->page . '&category_id=' . $this->category_id);
+        }
     }
 }

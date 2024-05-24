@@ -28,6 +28,6 @@ class DeleteArticleModal extends Component
     }
     public function deleteArticle($id){
         Article::find($id)->delete();
-        return redirect()->to('/articles')->with('status', __('main.article').' '.$this->article_name . ' ' .__('main.created'));
+        return redirect()->to('/dashboard-articles')->with('status', __('main.article').' '.$this->article_name . ' ' .__('main.created'));
     }
 }

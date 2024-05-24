@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use  \App\Models\Settings;
+use Livewire\Livewire;
 
 class DashboardController extends Controller
 {
@@ -124,5 +125,10 @@ class DashboardController extends Controller
     {
 
         return view('dashboard.site_settings');
+    }
+    public function siteMenuBuilder()
+    {
+
+        return view('dashboard.MenuBuilder');
     }
 }

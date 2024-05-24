@@ -10,7 +10,8 @@ class MainController extends Controller
     {
         $categories = \App\Models\Category::all();
         $articles = \App\Models\Article::where('category_id',1)->get();
-        return view('main', compact('articles','categories'));
+        $isHomePag = True;
+        return view('main', compact('articles','categories', 'isHomePag'));
     }
     public function articles(Request $request)
     {

@@ -6,70 +6,82 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="updateCategory">
-        <div wire:loading>
-            @include('livewire.elements.loader')
-        </div>
-        <div class="form-group">
+        <form wire:submit.prevent="updateCategory">
+            <div wire:loading>
+                @include('livewire.elements.loader')
+            </div>
+            <div class="form-group">
 
-            <label for="InputName">{{__('main.category_title')}}</label>
+                <label for="InputName">{{__('main.category_title')}}</label>
 
-            <input type="text" class="form-control" id="InputName" placeholder="{{__('main.enter_name')}}" wire:model.lazy="title">
+                <input type="text" class="form-control" id="InputName" placeholder="{{__('main.enter_name')}}" wire:model.lazy="title">
 
-            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
 
-        </div>
+            </div>
 
-        <div class="form-group">
+            <div class="form-group">
 
-            <label for="InputSlug">{{__('main.alias')}}</label>
+                <label for="InputSlug">{{__('main.alias')}}</label>
 
-            <input type="text" class="form-control" id="InputSlug"  wire:model="slug">
+                <input type="text" class="form-control" id="InputSlug"  wire:model="slug">
 
-            @error('slug') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('slug') <span class="text-danger">{{ $message }}</span> @enderror
 
-        </div>
-        <div class="form-group mt-2">
+            </div>
+            <div class="form-group mt-2">
 
-            <label for="InputCategories">{{__('main.subcategory')}}</label>
-            <select class="form-select" aria-label="Default select example" id="InputCategories"  wire:model="category_id">
-                <option selected>{{__('main.select_subcategory')}}</option>
-                @foreach ($categories as $c)
-                    <option value="{{$c->id}}">{{$c->title}}</option>
-                @endforeach
-            </select>
-            @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
+                <label for="InputCategories">{{__('main.subcategory')}}</label>
+                <select class="form-select" aria-label="Default select example" id="InputCategories"  wire:model="category_id">
+                    <option selected>{{__('main.select_subcategory')}}</option>
+                    @foreach ($categories as $c)
+                        <option value="{{$c->id}}">{{$c->title}}</option>
+                    @endforeach
+                </select>
+                @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
 
-        </div>
-        <div class="form-group" wire:ignore>
+            </div>
+            <div class="form-group" wire:ignore>
 
-            <label for="description">{{__('main.description')}}</label>
+                <label for="description">{{__('main.description')}}</label>
 
-            <textarea name="description" class="form-control" id="CategoryMessage" placeholder="Enter Body" wire:model.lazy="description">
+                <textarea name="description" class="form-control" id="CategoryMessage" placeholder="Enter Body" wire:model.lazy="description">
             {!! $description !!}
         </textarea>
 
-            @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('description') <span class="text-danger">{{ $message }}</span> @enderror
 
-        </div>
+            </div>
 
-        <div class="form-group">
+            <!-- Поле ввода файла -->
+            <div class="form-group" wire:ignore>
+                @if($image)
+                    <div class="card my-2" style="background-image: url({{$image}}); background-size: cover; height: 96px; width:96px">
+                    </div>
+                @endif
+                <label for="photo">{{__('main.image')}}</label>
+                <input type="file" class="form-control" id="photo" wire:model.lazy="photo">
+                    @error('photo') <span class="error">{{ $message }}</span> @enderror
+            </div>
 
-            <label for="InputMetaDesc">{{__('main.meta_desc')}}</label>
-            <input type="text" class="form-control" id="InputMetaDesc"  wire:model.lazy="metadesc">
+            <div class="form-group">
 
-        </div>
+                <label for="InputMetaDesc">{{__('main.meta_desc')}}</label>
+                <input type="text" class="form-control" id="InputMetaDesc"  wire:model.lazy="metadesc">
 
-        <div class="form-group">
+            </div>
 
-            <label for="InputMetaKeys">{{__('main.meta_keys')}}</label>
-            <input type="text" class="form-control" id="InputMetaKeys"  wire:model.lazy="metakeys">
+            <div class="form-group">
 
-        </div>
+                <label for="InputMetaKeys">{{__('main.meta_keys')}}</label>
+                <input type="text" class="form-control" id="InputMetaKeys"  wire:model.lazy="metakeys">
 
-        <button type="submit" class="btn btn-primary mt-2">{{__('main.update_category')}}</button>
+            </div>
 
-    </form>
+
+            <button type="submit" class="btn btn-primary mt-2">{{__('main.update_category')}}</button>
+
+        </form>
     <script src="https://cdn.ckeditor.com/4.16.1/full/ckeditor.js"></script>
     <script>
         const editor = CKEDITOR.replace('description');

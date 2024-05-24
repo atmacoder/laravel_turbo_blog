@@ -68,6 +68,13 @@
                 </ul>
             </li>
         @endcan
+
+            <li class="nav-item">
+                <span class="menu-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('main.menu') }}</span>
+                <ul class="dropdown-menu dropdown-menu-lg-end">
+                    <li> <a class="menu-link" href="/menu">{{ __('main.menu') }}</a></li>
+                </ul>
+            </li>
         <li class="nav-item">
             <a class="menu-link-alone" href="/settings">{{ __('main.site_settings') }}</a>
         </li>

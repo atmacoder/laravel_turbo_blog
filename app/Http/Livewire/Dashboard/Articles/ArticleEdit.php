@@ -13,10 +13,11 @@ use App\Models\ExtendArticleTypes;
 use App\Models\ExtendArticle;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ArticleEdit extends Component
 {
-    public $article, $article_id, $categories, $title, $image, $description, $slug, $metadesc, $metakeys, $image_name, $extendTypes;
+    public $article, $article_id, $categories, $title, $image, $description, $slug, $metadesc, $metakeys,$created_at, $image_name, $extendTypes;
 
     public $category_id = 1;
     public $images = [];
@@ -34,7 +35,7 @@ class ArticleEdit extends Component
             return redirect()->to('/no-permission');
         }
         //$this->extendedTypes = ExtendArticleTypes::all();
-        $article = Article::with('extendTypes')->find($request->input('article_id'));
+        $article = Article::with('extendTypes')->with('images')->find($request->input('article_id'));
         $this->article_id = $article->id;
         $this->article = $article;
 
@@ -44,6 +45,9 @@ class ArticleEdit extends Component
         $this->image = $this->article->image;
         $this->description = $this->article->description;
         $this->slug = $this->article->slug;
+        $carbon_date = Carbon::parse($this->article->created_at);
+        $formatted_date = $carbon_date->format('Y-m-d');
+        $this->created_at = $formatted_date;
         $this->metadesc = $this->article->meta_description;
         $this->metakeys = $this->article->meta_keywords;
 
@@ -63,6 +67,18 @@ class ArticleEdit extends Component
         $article = Article::find($this->article_id);
 
         $this->images = $article->getMedia($this->slug)->toArray();
+		if(!$this->images){
+			if($article->images && count($article->images)>0){
+			$images = $article->getMedia($article->images[0]->collection_name); // Получить изображения со старым названием коллекции
+			foreach ($images as $image) {
+			$image->update([
+			'collection_name' => $this->slug
+				]);
+			}
+			$this->images = $article->getMedia($this->slug)->toArray();
+				}
+
+		}
 
     }
 
@@ -136,6 +152,7 @@ class ArticleEdit extends Component
 
             $article->category_id = $this->category_id;
             $article->title = $this->title;
+            $article->created_at = $this->created_at;
             $article->description = $this->description;
 
             if ($article->slug != $this->slug) {
@@ -209,5 +226,26 @@ class ArticleEdit extends Component
     {
         $slug = SlugService::createSlug(Article::class, 'slug', $this->title, ['unique' => false]);
         $this->slug = $slug;
+    }
+    public function changeStatusPublished($article_id){
+
+        $thisArticle = Article::with('category')->find($article_id);
+        $thisArticle->published = !$thisArticle->published;
+        $thisArticle->update();
+        $this->article->published = $thisArticle->published;
+        //return redirect()->to('/dashboard-articles?page' . $this->page . '&category_id=' . $thisArticle->category->id);
+        // return redirect()->to('/comments?page=' . $this->page);
+    }
+    public function changeStatusArhive($article_id){
+
+        $thisArticle = Article::with('category')->find($article_id);
+        $thisArticle->arhive = !$thisArticle->arhive;
+        $thisArticle->update();
+        $this->article->arhive = $thisArticle->arhive;
+        //return redirect()->to('/dashboard-articles?page' . $this->page . '&category_id=' . $thisArticle->category->id);
+        // return redirect()->to('/comments?page=' . $this->page);
+    }
+    public function openModuleDeleteArticle($article){
+        $this->emit('activateModalArticleDelete', $article);
     }
 }

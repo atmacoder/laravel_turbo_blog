@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard\Articles;
 
+use App\Models\Article;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,7 @@ class ArticleItem extends Component
 {
     public $article;
     public $user;
+    public $page = 1;
 
     public function render()
     {
@@ -41,5 +43,23 @@ class ArticleItem extends Component
             $this->skipRender();
             return redirect()->to('/no-permission');
         }
+    }
+    public function changeStatusPublished($article_id){
+
+        $thisArticle = Article::with('category')->find($article_id);
+        $thisArticle->published = !$thisArticle->published;
+        $thisArticle->update();
+        $this->article->published = $thisArticle->published;
+        //return redirect()->to('/dashboard-articles?page' . $this->page . '&category_id=' . $thisArticle->category->id);
+        // return redirect()->to('/comments?page=' . $this->page);
+    }
+    public function changeStatusArhive($article_id){
+
+        $thisArticle = Article::with('category')->find($article_id);
+        $thisArticle->arhive = !$thisArticle->arhive;
+        $thisArticle->update();
+        $this->article->arhive = $thisArticle->arhive;
+        //return redirect()->to('/dashboard-articles?page' . $this->page . '&category_id=' . $thisArticle->category->id);
+        // return redirect()->to('/comments?page=' . $this->page);
     }
 }

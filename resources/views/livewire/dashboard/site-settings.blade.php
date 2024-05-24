@@ -37,7 +37,7 @@
             <input type="checkbox" id="show_logo_text" value="1" @if($designSettings['show_logo_text']) checked @endif wire:model.lazy="designSettings.show_logo_text">
             <label for="show_logo_text">Показать название сайта</label>
         </div>
-
+        <h2>{{ __('main.backend') }}</h2>
         <div class="form-group mt-2 mb-2" wire:ignore>
             <div class="row">
                 <div class="col-md-3">
@@ -73,10 +73,10 @@
         <div class="form-group mt-2 mb-2" wire:ignore>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="colorInput4">{{ __('main.links_color') }}</label>
+                    <label for="colorInput1">{{ __('main.links_color') }}</label>
                 </div>
                 <div class="col-md-6">
-                    <input id="colorInput4" data-jscolor="{}" value="{{ $designSettings['links_color'] }}" wire:model.lazy="designSettings.links_color">
+                    <input id="colorInput2" data-jscolor="{}" value="{{ $designSettings['links_color'] }}" wire:model.lazy="designSettings.links_color">
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="form-group mt-2 mb-2" wire:ignore>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="colorInput4">{{ __('main.h1_color') }}</label>
+                    <label for="colorInput3">{{ __('main.h1_color') }}</label>
                 </div>
                 <div class="col-md-6">
                     <input id="colorInput4" data-jscolor="{}" value="{{ $designSettings['h1_color'] }}" wire:model.lazy="designSettings.h1_color">
@@ -95,10 +95,10 @@
         <div class="form-group mt-2 mb-2" wire:ignore>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="colorInput4">{{ __('main.menu_link_color') }}</label>
+                    <label for="colorInput5">{{ __('main.menu_link_color') }}</label>
                 </div>
                 <div class="col-md-6">
-                    <input id="colorInput4" data-jscolor="{}" value="{{ $designSettings['menu_link_color'] }}" wire:model.lazy="designSettings.menu_link_color">
+                    <input id="colorInput6" data-jscolor="{}" value="{{ $designSettings['menu_link_color'] }}" wire:model.lazy="designSettings.menu_link_color">
                 </div>
             </div>
         </div>
@@ -106,17 +106,320 @@
         <div class="form-group mt-2 mb-2" wire:ignore>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="colorInput4">{{ __('main.menu_hover_link_color') }}</label>
+                    <label for="colorInput7">{{ __('main.menu_hover_link_color') }}</label>
                 </div>
                 <div class="col-md-6">
-                    <input id="colorInput4" data-jscolor="{}" value="{{ $designSettings['menu_hover_link_color'] }}" wire:model.lazy="designSettings.menu_hover_link_color">
+                    <input id="colorInput8" data-jscolor="{}" value="{{ $designSettings['menu_hover_link_color'] }}" wire:model.lazy="designSettings.menu_hover_link_color">
                 </div>
             </div>
         </div>
+        <h2>{{ __('main.frontend') }}</h2>
 
         <div class="form-group mt-2 mb-2" wire:ignore>
-            <label for="document">{{ __('main.site_logo') }}</label>
-            <div class="needsclick dropzone" id="document-dropzone">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="colorInput9">{{ __('main.logo_text_color') }}</label>
+                </div>
+                <div class="col-md-6">
+                    <input id="colorInput10" data-jscolor="{}" value="{{ $designSettings['logo_text_color'] }}" wire:model.lazy="designSettings.logo_text_color">
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput11">{{ __('main.logo_text_size') }}</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="number" value="{{ $designSettings['logo_text_size'] }}" wire:model.lazy="designSettings.logo_text_size"/>
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput12">{{ __('main.info_blog_header_right') }}</label>
+                </div>
+                <div class="col-md-6">
+                    <textarea value="{{ $designSettings['info_blog_header_right'] }}" wire:model.lazy="designSettings.info_blog_header_right"></textarea>
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput12">{{ __('main.info_blog_footer') }}</label>
+                </div>
+                <div class="col-md-6">
+                    <textarea value="{{ $designSettings['info_blog_footer'] }}" wire:model.lazy="designSettings.info_blog_footer"></textarea>
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput22">{{ __('main.footer_text_color') }}</label>
+                </div>
+                <div class="col-md-6">
+                    <input id="colorInput22" data-jscolor="{}" value="{{ $designSettings['footer_text_color'] }}" wire:model.lazy="designSettings.footer_text_color">
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group mt-2 mb-2" wire:ignore>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>{{ __('main.background_menu') }}</label>
+                </div>
+                <div class="col-md-6">
+                    <div id="background_menu"></div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group mt-2 mb-2" wire:ignore>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput13">{{ __('main.class_main_buttons') }}</label>
+                    <div class="background-menu">
+                    <button class="btn {{ $designSettings['class_main_buttons'] }} m-2">{{__('example')}}</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <select class="mt-4" id="colorInput17" wire:model="designSettings.class_main_buttons">
+                        <option value="">Выберите класс кнопки</option>
+                        <option value="btn-primary">Синяя кнопка</option>
+                        <option value="btn-secondary">Серая кнопка</option>
+                        <option value="btn-success">Зеленая кнопка</option>
+                        <option value="btn-danger">Красная кнопка</option>
+                        <option value="btn-warning">Оранжевая кнопка</option>
+                        <option value="btn-info">Голубая кнопка</option>
+                        <option value="btn-light">Светло-серая кнопка</option>
+                        <option value="btn-dark">Темно-серая кнопка</option>
+                        <option value="btn-outline-primary">Синяя кнопка с контуром</option>
+                        <option value="btn-outline-secondary">Серая кнопка с контуром</option>
+                        <option value="btn-outline-success">Зеленая кнопка с контуром</option>
+                        <option value="btn-outline-danger">Красная кнопка с контуром</option>
+                        <option value="btn-outline-warning">Оранжевая кнопка с контуром</option>
+                        <option value="btn-outline-info">Голубая кнопка с контуром</option>
+                        <option value="btn-outline-light">Светло-серая кнопка с контуром</option>
+                        <option value="btn-outline-dark">Темно-серая кнопка с контуром</option>
+                    </select>
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput14">{{ __('main.menu_text_color') }}</label>
+                    <div class="background-menu">
+                    <button class="btn {{ $designSettings['class_main_buttons'] }} m-2" style="color:{{ $designSettings['menu_text_color'] }}">{{__('example')}}</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <input class="mt-4" id="colorInput17" id="colorInput14" data-jscolor="{}" value="{{ $designSettings['menu_text_color'] }}" wire:model.lazy="designSettings.menu_text_color">
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput15">{{ __('main.menu_text_color_hover') }}</label>
+                    <div class="background-menu">
+                    <button class="btn {{ $designSettings['class_main_buttons'] }} m-2"><a href="#">{{__('example')}}</a></button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <input class="mt-4" id="colorInput17" id="colorInput15" data-jscolor="{}" value="{{ $designSettings['menu_text_color_hover'] }}" wire:model.lazy="designSettings.menu_text_color_hover">
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label for="colorInput16">{{ __('main.menu_active_text_color') }}</label>
+                    <div class="background-menu">
+                    <button class="btn {{ $designSettings['class_main_buttons'] }} active m-2"><a href="#"  style="color:{{ $designSettings['menu_active_text_color'] }}">{{__('example')}}</a></button>
+                    </div>
+                    </div>
+                <div class="col-md-6">
+                    <input class="mt-4" id="colorInput17" data-jscolor="{}" value="{{ $designSettings['menu_active_text_color'] }}" wire:model.lazy="designSettings.menu_active_text_color">
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group mt-4 mb-2" wire:ignore>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>{{ __('main.background_card_header_frontend') }}</label>
+                    <div class="p-2" style="background:{{ $designSettings['background_card_header_frontend'] }}; color:{{ $designSettings['background_card_header_frontend_color'] }}">
+                        Example text
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mt-4" id="background_card_header_frontend"></div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group mt-4 mb-2" wire:ignore>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="colorInput18">{{ __('main.background_card_header_frontend_color') }}</label>
+                    <div class="p-2" style="background:{{ $designSettings['background_card_header_frontend'] }}; color:{{ $designSettings['background_card_header_frontend_color'] }}">
+                        Example text
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <input class="mt-4" id="colorInput18" data-jscolor="{}" value="{{ $designSettings['background_card_header_frontend_color'] }}" wire:model.lazy="designSettings.background_card_header_frontend_color">
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <label for="colorInput11">{{ __('main.category_text_size') }}</label>
+            </div>
+            <div class="col-md-6">
+                <h3 style="font-size:{{ $designSettings['category_text_size'] }}">Example text size</h3>
+                <input class="mt-4" type="number" value="{{ $designSettings['category_text_size'] }}" wire:model.lazy="designSettings.category_text_size"/>
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <label for="colorInput34">{{ __('main.category_text_color') }}</label>
+                <div class="category_text_color">
+                    <div class="m-2 p-2" style="color:{{ $designSettings['category_text_color'] }}; background:{{ $designSettings['background_card_header_body_frontend'] }}">{{__('example')}}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input class="mt-4" id="colorInput17" id="colorInput14" data-jscolor="{}" value="{{ $designSettings['category_text_color'] }}" wire:model.lazy="designSettings.category_text_color">
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <label for="colorInput34">{{ __('main.comment_form_text') }}</label>
+                <div class="category_text_color">
+                    <div class="m-2 p-2" style="color:{{ $designSettings['comment_form_text'] }}; background:{{ $designSettings['background_card_header_body_frontend'] }}">{{__('example')}}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input class="mt-4" id="colorInput17" id="colorInput14" data-jscolor="{}" value="{{ $designSettings['comment_form_text'] }}" wire:model.lazy="designSettings.comment_form_text">
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <label for="colorInput24">{{ __('main.article_title') }}</label>
+                <div class="article_title">
+                    <div class="m-2 p-2" style="color:{{ $designSettings['article_title'] }}; background:{{ $designSettings['article_title'] }}">{{__('example')}}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input class="mt-4" id="colorInput17" id="colorInput14" data-jscolor="{}" value="{{ $designSettings['article_title'] }}" wire:model.lazy="designSettings.article_title">
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <label for="colorInput24">{{ __('main.article_body') }}</label>
+                <div class="article_title">
+                    <div class="m-2 p-2" style="color:{{ $designSettings['article_body'] }}; background:{{ $designSettings['article_body'] }}">{{__('example')}}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input class="mt-4" id="colorInput27" id="colorInput14" data-jscolor="{}" value="{{ $designSettings['article_body'] }}" wire:model.lazy="designSettings.article_body">
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <label for="colorInput24">{{ __('main.breadcrumb_a') }}</label>
+                <div class="article_title">
+                    <div class="m-2 p-2" style="color:{{ $designSettings['breadcrumb_a'] }}; background:{{ $designSettings['background_card_header_body_frontend'] }}">{{__('example')}}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input class="mt-4" id="colorInput27" id="colorInput14" data-jscolor="{}" value="{{ $designSettings['breadcrumb_a'] }}" wire:model.lazy="designSettings.breadcrumb_a">
+            </div>
+        </div>
+        <hr />
+        <div class="form-group mt-4 mb-2" wire:ignore>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="colorInput18">{{ __('main.background_card_header_frontend_color_bb') }}</label>
+                    <div class="p-2" style="background:{{ $designSettings['background_card_header_frontend'] }}; color:{{ $designSettings['background_card_header_frontend_color'] }}; border-bottom: 1px solid {{$designSettings['background_card_header_frontend_color_bb'] }}">
+                        Example text
+                    </div>
+                    <div class="p-4" style="background:{{ $designSettings['background_card_header_body_frontend'] }}">example body</div>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <input class="mt-4" id="colorInput18" data-jscolor="{}" value="{{ $designSettings['background_card_header_frontend_color_bb'] }}" wire:model.lazy="designSettings.background_card_header_frontend_color_bb">
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group mt-4 mb-2" wire:ignore>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>{{ __('main.background_card_header_body_frontend') }}</label>
+                    <div class="p-2" style="background:{{ $designSettings['background_card_header_body_frontend'] }}">
+                        Example text
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mt-4" id="background_card_header_body_frontend"></div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group mt-4 mb-4">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="colorInput31">{{ __('main.scroll_top_background') }}</label>
+            </div>
+            <div class="col-md-6">
+                <input id="colorInput31" data-jscolor="{}" value="{{ $designSettings['scroll_top_background'] }}" wire:model.lazy="designSettings.scroll_top_background">
+            </div>
+        </div>
+        </div>
+        <hr />
+        <div class="form-group mt-4 mb-4">
+            <input type="checkbox" id="show_category_desc" value="1" @if($designSettings['show_category_desc']) checked @endif wire:model.lazy="designSettings.show_category_desc">
+            <label for="show_category_desc">Показать описание категории</label>
+        </div>
+        <hr />
+        <div class="form-group mt-2 mb-2">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="colorInput19">{{ __('main.background_header') }}</label>
+                    @if(isset($designSettings['imageBackgroundHeader']))
+                        <div class="card" style="background-image: url({{ $designSettings['imageBackgroundHeader'] }}); background-size: cover; height: 96px; width: 96px;">
+                        </div>
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    <input type="file" class="form-control-file" wire:model="imageBackgroundHeader" accept="image/*">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="colorInput20">{{ __('main.background_footer') }}</label>
+                    @if(isset($designSettings['imageBackgroundFooter']))
+                        <div class="card" style="background-image: url({{ $designSettings['imageBackgroundFooter'] }}); background-size: cover; height: 96px; width: 96px;">
+                        </div>
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    <input type="file" class="form-control-file" wire:model="imageBackgroundFooter" accept="image/*">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="colorInput21">{{ __('main.background_bg') }}</label>
+                    @if(isset($designSettings['imageBackgroundBg']))
+                    <div class="card" style="background-image: url({{ $designSettings['imageBackgroundBg'] }}); background-size: cover; height: 96px; width: 96px;">
+                    </div>
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    <input type="file" class="form-control-file" wire:model="imageBackgroundBg" accept="image/*">
+                </div>
             </div>
         </div>
 
@@ -132,50 +435,6 @@
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.5.1/jscolor.min.js"></script>
-<script>
-    var uploadedDocumentMap = {}
-    Dropzone.options.documentDropzone = {
-        url: '{{ route('dashboard_images') }}',
-        maxFilesize: 2, // MB
-        addRemoveLinks: true,
-        dictDefaultMessage: "{{__('main.upload_image_here')}}",
-        headers: {
-            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-        },
-        success: function (file, response) {
-            // $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + response.name + '">')
-        @this.setImages(response.name);
-            uploadedDocumentMap[file.name] = response.name
-        },
-        removedfile: function (file) {
-            file.previewElement.remove()
-            var name = ''
-            if (typeof file.file_name !== 'undefined') {
-                name = file.file_name
-            } else {
-                name = uploadedDocumentMap[file.name]
-            }
-            $('form').find('input[name="document[]"][value="' + name + '"]').remove()
-        },
-        init: function () {
-            @if(isset($project) && $project->document)
-            var files =
-                    {!! json_encode($project->document) !!}
-                    for(
-            var i
-        in
-            files
-        )
-            {
-                var file = files[i]
-                this.options.addedfile.call(this, file)
-                file.previewElement.classList.add('dz-complete')
-                $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + file.file_name + '">')
-            }
-            @endif
-        }
-    }
-</script>
 <script src="{{ asset('js/xncolorpicker.min.js') }}"></script>
 <script>
     let designSettings = @js($designSettings);
@@ -265,6 +524,90 @@
             }
         }
     })
+    var background_menu = new XNColorPicker({
+        color: designSettings['background_menu'],
+        selector: "#background_menu",
+        showprecolor: true,
+        prevcolors: null,
+        showhistorycolor: true,
+        historycolornum: 16,
+        format: 'hsla',
+        showPalette: true,
+        show: false,
+        lang: 'en',
+        colorTypeOption: 'single,linear-gradient,radial-gradient',//
+        onError: function (e) {
+
+        },
+        onCancel: function (color) {
+            //console.log("cancel",color)
+        },
+        onChange: function (color) {
+            //console.log("change",color)
+        },
+        onConfirm: function (color) {
+            try {
+            @this.setDesign('background_menu', color);
+            } catch {
+            }
+        }
+    })
+    var background_menu = new XNColorPicker({
+        color: designSettings['background_card_header_frontend'],
+        selector: "#background_card_header_frontend",
+        showprecolor: true,
+        prevcolors: null,
+        showhistorycolor: true,
+        historycolornum: 16,
+        format: 'hsla',
+        showPalette: true,
+        show: false,
+        lang: 'en',
+        colorTypeOption: 'single,linear-gradient,radial-gradient',//
+        onError: function (e) {
+
+        },
+        onCancel: function (color) {
+            //console.log("cancel",color)
+        },
+        onChange: function (color) {
+            //console.log("change",color)
+        },
+        onConfirm: function (color) {
+            try {
+            @this.setDesign('background_card_header_frontend', color);
+            } catch {
+            }
+        }
+    })
+    var background_menu = new XNColorPicker({
+        color: designSettings['background_card_header_body_frontend'],
+        selector: "#background_card_header_body_frontend",
+        showprecolor: true,
+        prevcolors: null,
+        showhistorycolor: true,
+        historycolornum: 16,
+        format: 'hsla',
+        showPalette: true,
+        show: false,
+        lang: 'en',
+        colorTypeOption: 'single,linear-gradient,radial-gradient',//
+        onError: function (e) {
+
+        },
+        onCancel: function (color) {
+            //console.log("cancel",color)
+        },
+        onChange: function (color) {
+            //console.log("change",color)
+        },
+        onConfirm: function (color) {
+            try {
+            @this.setDesign('background_card_header_body_frontend', color);
+            } catch {
+            }
+        }
+    })
 </script>
 <style>
     .picture-container {
@@ -332,5 +675,15 @@
     .iconcolorpicker1:before {
         content: "\e624";
     }
-
+    button.btn.{{ $designSettings['class_main_buttons'] }} a
+    {
+        color:{{ $designSettings['menu_text_color'] }}
+     }
+     button.btn.{{ $designSettings['class_main_buttons'] }} a:hover
+     {
+        color:{{ $designSettings['menu_text_color_hover'] }}
+     }
+     .background-menu{
+     background:{{ $designSettings['background_menu'] }}
+     }
 </style>

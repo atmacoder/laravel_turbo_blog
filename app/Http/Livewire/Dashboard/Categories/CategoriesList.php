@@ -14,6 +14,7 @@ class CategoriesList extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+    public $page = 1;
 
     public function render()
     {
@@ -30,5 +31,9 @@ class CategoriesList extends Component
             $this->skipRender();
             return redirect()->to('/no-permission');
         }
+    }
+    public function updatingPage($page)
+    {
+        return redirect()->to('/сategories?page=' . $page);
     }
 }

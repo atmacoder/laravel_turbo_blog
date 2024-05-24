@@ -21,23 +21,44 @@
 
 </head>
 <body>
-<div id="app">
-    <div class="container">
+<div id="app" style="width: 100%;">
+
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 mb-4">
+            <div class="col-md-12 p-0">
                 @include('elements.header_guest')
             </div>
-            <div class="col-md-12">
-                @yield('content_guest',)
-            </div>
-            <div class="col-md-12 mb-4">
-                @include('elements.footer')
-            </div>
         </div>
-        @livewireScripts
-        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-                data-turbolinks-eval="false" data-turbo-eval="false"></script>
     </div>
+
+        <div class="row menu-header mb-4">
+            <div class="menu-container">
+                <nav class="navbar navbar-expand-lg mx-auto">
+                    <div class="container-fluid">
+                        <a class="navbar-brand d-md-none" href="/">Антиквариат меню</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            @livewire('main.menu')
+                        </div>
+                    </div>
+                </nav>
+
+            </div>
+			</div>
+
+    <div class="container-fluid">
+                @yield('content_guest')
+    </div>
+
+    <div class="container-fluid footer-main p-0 mt-4">
+
+                @include('elements.footer_guest')
+
+    </div>
+
+    @livewireScripts
 </div>
 </body>
 </html>

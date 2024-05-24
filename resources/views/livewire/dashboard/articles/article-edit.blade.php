@@ -11,7 +11,6 @@
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 success: function (file, response) {
-                    // $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + response.name + '">')
                 @this.setImages(response.name);
                     uploadedDocumentMap[file.name] = response.name
                 },
@@ -34,11 +33,12 @@
                         this.options.addedfile.call(this, file)
                         file.previewElement.classList.add('dz-complete')
                         $('form').append('<input type="hidden" wire:model.lazy="new_images" name="new_images[]" value="' + file.file_name + '">')
-                    }
+                      }
                     @endif
                 }
             }
         </script>
+        @livewire('elements.delete-article-modal')
         <form wire:submit.prevent="updateArticle">
 
             <div wire:loading.delay>
@@ -61,7 +61,18 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <img src="{{$image}}" style="max-height: 200px"/>
+                            @if($image)
+                                @if(Count($article->media)==1)
+                                    <a class="article-gallery" data-gall="gallery" href="{{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}" title="{{$article->title}}">
+                                        <img style="max-height: 200px" id="slide-img" src="{{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}" alt="{{$article->title}}"/>
+                                    </a>
+                                @else
+                                    <img style="max-height: 200px" id="slide-img" src="{{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}" alt="{{$article->title}}"/>
+                                @endif
+                            @else
+                                <img id="slide-img" src="/storage/blank.png"/>
+
+                            @endif
                         </div>
                     </div>
 
@@ -87,6 +98,41 @@
                 </select>
                 @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
 
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <small class="switch-label">Опубликованно</small>
+                    <br />
+                    <label class="switch">
+                        @if($article->published == 1)
+                            <input type="checkbox" value="true" checked wire:click="changeStatusPublished({{ $article->id }})">
+                        @else
+                            <input type="checkbox" value="false" wire:click="changeStatusPublished({{ $article->id }})">
+                        @endif
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <small class="switch-label">Архив</small>
+                    <br />
+                    <label class="switch">
+                        @if($article->arhive == 1)
+                            <input type="checkbox" value="true" checked wire:click="changeStatusArhive({{ $article->id }})">
+                        @else
+                            <input type="checkbox" value="false" wire:click="changeStatusArhive({{ $article->id }})">
+                        @endif
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="created_at">Дата создания</label>
+                    <input type="date" class="form-control" wire:model="created_at">
+                </div>
             </div>
             <div class="form-group mt-4" wire:ignore>
                 @livewire('elements.chat-bot')
@@ -154,6 +200,9 @@
                 <div class="needsclick dropzone" id="document-dropzone">
                 </div>
             </div>
+            <button wire:click="openModuleDeleteArticle({{$article}})" type="button" class="btn btn-danger mt-2">
+                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+            </button>
             <button type="submit" class="btn btn-primary mt-2">{{__('main.update_article')}}</button>
         </form>
         <div class="row">
@@ -199,25 +248,85 @@
                 extraPlugins:'justify',
                 codeSnippetTheme:'monokia_sublime'
             });
-            editor.on('change', function(event){
-            @this.set('description', event.editor.getData());
-            });
-
+            if(editor) {
+                editor.on('change', function (event) {
+                    @this.
+                    set('description', event.editor.getData());
+                });
+            }
             var editors = @js($extendTypes);
 
             for (let key in  editors) {
                 if (editors[key]['type']== "textarea") {
                     const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']));
                     neweditor.setData(editors[key]['value']);
-                    neweditor.on('change', function(event){
-                    @this.set('extendTypes.'+key+'.value', event.editor.getData());
-                    });
-
-
-
+                    if(neweditor) {
+                        neweditor.on('change', function (event) {
+                            @this.
+                            set('extendTypes.' + key + '.value', event.editor.getData());
+                        });
+                    }
                 }
             }
         </script>
     </div>
 
 </div>
+<script>
+    $(function() {
+        $('#created_at').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>
+<style>
+    /* The switch - the box around the slider */
+    .switch {
+        font-size: 17px;
+        position: relative;
+        display: inline-block;
+        width: 3.5em;
+        height: 2em;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        border: 2px solid #414141;
+        border-radius: 50px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 1.4em;
+        width: 1.4em;
+        left: 0.2em;
+        bottom: 0.2em;
+        background-color: #b48d56;
+        border-radius: inherit;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+
+    .switch input:checked + .slider {
+        box-shadow: 0 0 10px rgba(180, 141, 86, 0.8);
+        border: 2px solid #b48d56;
+    }
+
+    .switch input:checked + .slider:before {
+        transform: translateX(1.5em);
+    }
+    .leading-5 svg{
+        max-height: 25px;
+    }
+</style>

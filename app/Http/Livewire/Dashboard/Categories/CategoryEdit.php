@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use Livewire\Component;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
 
 class CategoryEdit extends Component
 {
-    public $category, $categories, $title, $description, $current_id ,$slug, $metadesc, $metakeys, $image_name;
+    use WithFileUploads;
+
+    public $category, $categories, $title, $description, $current_id, $slug, $metadesc, $metakeys, $photo, $image;
 
     public $category_id = 0;
 
@@ -28,9 +31,14 @@ class CategoryEdit extends Component
         $this->current_id = $request->input('category_id');
         $this->category_id = $category->parent_id;
 
-        $this->category =  $category;
+        $this->category = $category;
         $this->categories = Category::all();
         $this->title = $this->category->title;
+        if ($category->image_url) {
+            $this->image = $category->image_url;
+        }
+        $this->title = $this->category->title;
+
         $this->description = $this->category->description;
         $this->slug = $this->category->slug;
         $this->metadesc = $this->category->meta_description;
@@ -46,11 +54,12 @@ class CategoryEdit extends Component
     {
         $this->category = \App\Models\Category::find($category_id);
     }
-    public function updateCategory(){
+
+    public function updateCategory()
+    {
 
         $this->validate([
             'title' => 'required',
-            'description' => 'required',
             'slug' => 'required',
         ]);
 
@@ -62,7 +71,11 @@ class CategoryEdit extends Component
         $category->meta_description = $this->metadesc;
         $category->meta_keywords = $this->metakeys;
 
-        if($this->category_id) {
+        if ($this->photo) {
+            $this->photo->storeAs('categories', $this->slug . '.' . $this->photo->getClientOriginalExtension(), 'public');
+            $category->image_url = 'storage/categories/' . $this->slug . '.' . $this->photo->getClientOriginalExtension();
+        }
+        if ($this->category_id) {
             $category->parent_id = $this->category_id;
         }
 

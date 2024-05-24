@@ -21,4 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/upload_img', [App\Http\Controllers\Api\UploadController::class, 'uploadImg'])->name('uploadImg');
     Route::post('/upload_content', [App\Http\Controllers\Api\UploadController::class, 'uploadContent'])->name('uploadContent');
+    Route::post('/create_category', [App\Http\Controllers\Api\UploadController::class, 'createCategory'])->name('createCategory');
+    Route::post('/create_article', [App\Http\Controllers\Api\UploadController::class, 'createArticle'])->name('createArticle');
+    Route::post('/update_images', [App\Http\Controllers\Api\UploadController::class, 'updateCollectionNames'])->name('updateCollectionNames');
 });

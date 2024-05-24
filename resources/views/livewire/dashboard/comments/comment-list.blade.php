@@ -14,7 +14,7 @@
                 <tbody>
                 @foreach($comments as $index => $comment)
                 <tr>
-                    <td scope="col-1">
+                    <td class="col-1">
                         {{$comment->id}}
                     </td>
                     <td scope="col-2">
@@ -27,7 +27,7 @@
                             <p wire:ignore>{!! $comment->description !!}</p>
                         </div>
                     </td>
-                    <td scope="col-6">
+                    <td class="col-6">
                             <label class="switch">
                                 @if($comments[$index]->published == 1)
                                 <input type="checkbox" value="true" checked wire:click="changeStatus({{ $comment->id }})">

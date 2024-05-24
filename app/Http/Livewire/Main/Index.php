@@ -19,6 +19,7 @@ class Index extends Component
     public $categories;
     public $user;
     public $category = 0;
+    public $isHomePag = True;
 
     protected $articles;
 
@@ -42,6 +43,7 @@ class Index extends Component
             if ($request->category_id) {
                 $this->category = $request->category_id;
                 $this->articles = Article::Where('category_id', $request->category_id)->paginate($this->perPage);
+                $this->isHomePag = False;
             } else {
                 $this->articles = Article::paginate($this->perPage);
             }

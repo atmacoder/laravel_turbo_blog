@@ -4,6 +4,11 @@
         <ul class="bullet_list" style="padding:0px;list-style-type: disc !important;">
             <li><span>{{$category->title}}</span></li>
         </ul>
+        @if($category->image_url)
+                <div class="card" style="background-image: url({{ strpos($category->image_url, 'storage') !== false ? $category->image_url : '/storage'.$category->image_url }}); background-size: cover; height: 96px; width: 96px;">
+                </div>
+        @endif
+
         @if(Count($category->subCategories)>0)
             <ul style="padding:0px">
                 @foreach($category->subCategories as $subCategory)
@@ -32,6 +37,7 @@
             </ul>
         @endif
     </td>
+
     <td class="col-3">
         <button wire:click="editCategory({{ $category->id }})" type="button" class="btn btn-primary"><i
                 class="fa-solid fa-pen-to-square"></i></button>

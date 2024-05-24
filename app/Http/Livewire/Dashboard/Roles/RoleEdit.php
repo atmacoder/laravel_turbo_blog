@@ -5,8 +5,7 @@ namespace App\Http\Livewire\Dashboard\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-//use \App\Models\Permissions;
-//use \App\Models\Roles;
+
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -47,9 +46,7 @@ class RoleEdit extends Component
 
         $role = Role::find($this->role_id);
 
-        $role->syncPermissions(
-            $perms
-        );
+        $role->syncPermissions($perms);
 
         return redirect()->to('/roles')->with('status', __('main.role') . ' ' . $role->name . ' ' . __('main.role_was_updated'));
     }

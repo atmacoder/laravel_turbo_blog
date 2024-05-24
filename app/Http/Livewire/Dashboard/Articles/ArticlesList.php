@@ -23,7 +23,8 @@ class ArticlesList extends Component
     protected $articles;
 
     protected $perPage = 10;
-
+    public $limits = [10, 25, 50, 100, 250, 500];
+    public $selectedLimit = 10;
     protected $paginationTheme = 'bootstrap';
 
     public function render()
@@ -36,13 +37,18 @@ class ArticlesList extends Component
 
     public function mount(Request $request)
     {
+        if (session()->has('selectedLimit')) {
+            $this->selectedLimit = session()->get('selectedLimit');
+            //$this->perPage = $this->selectedLimit;
+        }
+
         $user = Auth::user();
         if ($user->can('view_articles')) {
             if ($request->category_id) {
                 $this->category = $request->category_id;
-                $this->articles = Article::Where('category_id', $request->category_id)->paginate($this->perPage);
+                $this->articles = Article::Where('category_id', $request->category_id)->latest()->paginate($this->selectedLimit);
             } else {
-                $this->articles = Article::paginate($this->perPage);
+                $this->articles = Article::latest()->paginate($this->selectedLimit);
             }
 
             $this->categories = Category::all();
@@ -61,9 +67,18 @@ class ArticlesList extends Component
     {
         $this->category = $category;
         $this->page = 1;
-        $this->articles = Article::where('category_id', $this->category)->paginate($this->perPage);
+        $this->articles = Article::where('category_id', $this->category)->latest()->paginate($this->selectedLimit);
 
         return redirect()->to('/dashboard-articles?page=1' . '&category_id=' . $this->category);
     }
 
+    public function updatedSelectedLimit()
+    {
+        $this->perPage = $this->selectedLimit;
+        $this->page = 1;
+
+        session()->put('selectedLimit', $this->selectedLimit);
+
+        return redirect()->to('/dashboard-articles?page=1' . '&category_id=' . $this->category);
+    }
 }

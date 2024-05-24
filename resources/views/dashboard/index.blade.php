@@ -9,8 +9,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('main.welcome') }}
+                         {{ __('main.welcome') }}
+								<div class="form-group mt-4" wire:ignore>
+                                @livewire('elements.chat-bot')
+                                 </div>
                 </div>
             </div>
 @endsection

@@ -26,6 +26,7 @@ class Category extends Model
         'title',
         'description',
         'slug',
+        'image_url',
         'meta_keywords',
         'meta_description'
     ];
@@ -37,5 +38,9 @@ class Category extends Model
     public function SubCategories()
     {
         return $this->hasMany(Category::class,'parent_id','id')->with('categories');
+    }
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 }

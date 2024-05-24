@@ -1,48 +1,57 @@
-<!-- Подключаем стили Highlight.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-<!-- Подключаем скрипт Highlight.js -->
-<script src="/storage/highlight.pack.js"></script>
-@if(Count($article->media)>1)
-<!-- Подключение swipebox CSS -->
-<link rel="stylesheet" href="/storage/css/swipebox.min.css">
-<!-- Подключение jquery JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Подключение swipebox JS -->
-<script src="/storage/js/jquery.swipebox.min.js"></script>
-@endif
 
+@if(isset($article) && Count($article->media)>1)
+<!-- Подключение swipebox CSS -->
+<link rel="stylesheet" href="/storage/css/venobox.min.css">
+<script src="/storage/js/venobox.min.js"></script>
+@endif
+{{--@auth
+@livewire('elements.delete-article-modal')
+@endauth--}}
 <div class="card">
-    <div class="card-header"><h1>{{ $article->title}}</h1></div>
-    <div class="card-body">
+    @if(isset($article))
+    <div class="card-header">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{url($article->category->slug)}}">{{ $article->category->title}}</a></li>
+                <li class="breadcrumb-item" aria-current="page">{{$article->title}}</li>
+            </ol>
+        </nav>
+
+    </div>
+    <div class="card-body article-body">
+        <h1 class="text-center article-title">{{ $article->title}}</h1>
         <div class="imgfull text-center">
             @if($article->image)
-                @if(Count($article->media)>1)
-                <a rel="gallery-1" href="{{$article->image}}" class="swipebox" title="{{$article->title}}">
-                <img src="{{$article->image}}" alt="{{$article->title}}"/>
-                </a>
+                @if(Count($article->media)==1)
+                    <a class="article-gallery" data-gall="gallery" href="{{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}" title="{{$article->title}}">
+                        <img id="slide-img" src="{{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}" alt="{{$article->title}}"/>
+                    </a>
                 @else
-                <img src="{{$article->image}}" alt="{{$article->title}}"/>
+                    <img id="slide-img" src="{{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}" alt="{{$article->title}}"/>
                 @endif
             @else
-                <img src="/storage/blank.png"/>
+                <img id="slide-img" src="/storage/blank.png"/>
 
             @endif
+                @if(Count($article->media)>1)
+                    <div class="mt-4 mb-4">
+                        <div class="my-gallery">
+                            <div class="gallerybox">
+                                @foreach($article->media as $index => $image)
+                                    <a class="article-gallery" data-gall="gallery"  href="{{ $image->original_url }}" title="{{ $image->name }}" data-fitview="true">
+                                        <img id="slide-img-gallery" data-title="{{ $image->name }}" src="{{ $image->original_url }}" alt="{{ $image->name }}" data-maxwidth="100%">
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+				@if($article->arhive == 1 || $article->category->title == "Архив")
+					<p>«Нет в наличии»</p>
+				@endif
         </div>
         {!! $article->description !!}
-
-        @if(Count($article->media)>1)
-            <div class="card">
-            <div class="my-gallery">
-                <div class="gallerybox">
-                    @foreach($article->media as $index => $image)
-                        <a rel="gallery-1" href="{{ $image->original_url }}" class="swipebox" title="{{ $image->name }}">
-                            <img src="{{ $image->original_url }}" alt="{{ $image->name }}">
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-            </div>
-        @endif
 
     </div>
 
@@ -50,7 +59,10 @@
         @auth
           <div class="row justify-content-end">
              <div class="col text-right" style="text-align: right">
-                <button class="btn btn-primary mt-4">
+{{--                 <button wire:click="openModuleDeleteArticle({{ $article->id }})" type="button" class="btn btn-danger">
+                     <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                 </button>--}}
+                 <button class="btn btn-primary mt-4">
                    <a class="text-white" href="{{ url('/article-edit?article_id='.$article->id) }}">{{ __('main.edit_article') }}</a>
                 </button>
              </div>
@@ -58,8 +70,9 @@
         @endauth
         @livewire('elements.comments', ['article' => $article])
     </div>
-
+    @endif
 </div>
+
 <script>
    document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('pre code').forEach((block) => {
@@ -67,30 +80,27 @@
       });
    });
 </script>
+@if(isset($article) && Count($article->media)>1)
 <script type="text/javascript">
-    ;( function( $ ) {
-
-        $( '.swipebox' ).swipebox();
-
-    } )( jQuery );
+    new VenoBox({
+        selector: ".article-gallery",
+        numeration: true,
+        infinigall: true,
+        share: true,
+        spinner: 'rotating-plane'
+    });
 </script>
+@endif
 <style>
+    #slide-img-gallery {
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+        max-height: 140px;
+        padding: 10px;
+    }
     .gallerybox {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Создание гибкой сетки изображений */
         grid-gap: 10px; /* Отступ между изображениями */
-    }
-
-    .swipebox {
-        width: auto; /* Установка ширины блока изображения */
-        max-height: 150px; /* Установка высоты блока изображения, чтобы сделать его квадратным */
-        overflow: hidden; /* Обрезать лишнее содержимое в случае необходимости */
-    }
-
-    .swipebox img {
-        width: 100%; /* Сделать изображение заполнителем блока */
-        height: 100%; /* Сделать изображение заполнителем блока */
-        object-fit: cover; /* Обрезать изображение, чтобы оно занимало всю доступную площадь */
     }
     .imgfull {
         max-width: 100%; /* Сделать изображение шириной по максимальной доступной ширине */
@@ -102,3 +112,4 @@
         object-fit: contain; /* Сохранить соотношение сторон, заполняя контейнер */
     }
 </style>
+

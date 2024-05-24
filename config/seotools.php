@@ -9,11 +9,11 @@ return [
          * The default configurations to be used by the meta generator.
          */
         'defaults'       => [
-            'title'        => "Zenoblog", // set false to total remove
+            'title'        => "Larvel turbo blog", // set false to total remove
             'titleBefore'  => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
-            'description'  => 'Блог разработчика, zen, zenno, blog, seo', // set false to total remove
+            'description'  => 'laravel turbo blog ', // set false to total remove
             'separator'    => ' - ',
-            'keywords'     => ['seo','blog','zeno','zenno'],
+            'keywords'     => ['blog,laravel,turbo'],
             'canonical'    => false, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'robots'       => false, // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
         ],
@@ -36,8 +36,8 @@ return [
          * The default configurations to be used by the opengraph generator.
          */
         'defaults' => [
-            'title'       => 'Zenoblog', // set false to total remove
-            'description' => 'Блог разработчика, zen, zenno, blog, seo', // set false to total remove
+            'title'       => 'laravel turbo blog', // set false to total remove
+            'description' => 'laravel turbo blog', // set false to total remove
             'url'         => false, // Set null for using Url::current(), set false to total remove
             'type'        => false,
             'site_name'   => false,
@@ -58,8 +58,8 @@ return [
          * The default configurations to be used by the json-ld generator.
          */
         'defaults' => [
-            'title'       => 'Zenoblog', // set false to total remove
-            'description' => 'Блог разработчика, zen, zenno, blog, seo', // set false to total remove
+            'title'       => 'laravel turbo blog', // set false to total remove
+            'description' => 'laravel,turbo,blog', // set false to total remove
             'url'         => false, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'type'        => 'WebPage',
             'images'      => [],

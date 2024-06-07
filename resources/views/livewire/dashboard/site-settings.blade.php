@@ -307,7 +307,7 @@
             <div class="col-md-3">
                 <label for="colorInput24">{{ __('main.article_title') }}</label>
                 <div class="article_title">
-                    <div class="m-2 p-2" style="color:{{ $designSettings['article_title'] }}; background:{{ $designSettings['article_title'] }}">{{__('example')}}</div>
+                    <div class="m-2 p-2" style="color:{{ $designSettings['article_title'] }}; background:{{ $designSettings['article_body'] }}">{{__('example')}}</div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -317,7 +317,7 @@
         <hr />
         <div class="row mt-2">
             <div class="col-md-3">
-                <label for="colorInput24">{{ __('main.article_body') }}</label>
+                <label for="colorInput25">{{ __('main.article_body') }}</label>
                 <div class="article_title">
                     <div class="m-2 p-2" style="color:{{ $designSettings['article_body'] }}; background:{{ $designSettings['article_body'] }}">{{__('example')}}</div>
                 </div>
@@ -329,7 +329,7 @@
         <hr />
         <div class="row mt-2">
             <div class="col-md-3">
-                <label for="colorInput24">{{ __('main.breadcrumb_a') }}</label>
+                <label for="colorInput26">{{ __('main.breadcrumb_a') }}</label>
                 <div class="article_title">
                     <div class="m-2 p-2" style="color:{{ $designSettings['breadcrumb_a'] }}; background:{{ $designSettings['background_card_header_body_frontend'] }}">{{__('example')}}</div>
                 </div>

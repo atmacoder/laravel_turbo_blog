@@ -18,8 +18,8 @@ class SiteSettings extends Component
     public $images = [];
 
     public $designSettings = [
-        'background_header' => '#FFFFFF',
-        'background_footer' => 'linear-gradient(0.0deg,hsla(279,63%,58%,1) 0.0,hsla(198,83%,53%,1) 100.0%)',
+        'background_header' => 'linear-gradient(0.0deg,hsla(0,0%,100%,1) 0.0,hsla(180,84%,78%,1) 56.2%,hsla(198,100%,50%,0.43) 100.0%)',
+        'background_footer' => 'linear-gradient(0.0deg,hsla(201,97%,42%,1) 0.0,hsla(0,0%,0%,0) 100.0%)',
         'background_card_header' => '#FFFFFF',
         'color_sitename' => '#FFFFFF',
         'links_color' => '#3aaaf7',

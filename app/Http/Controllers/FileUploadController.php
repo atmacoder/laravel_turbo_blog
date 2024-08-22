@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Intervention\Image\Facades\Image;
 
 class FileUploadController extends Controller
 {
@@ -15,22 +16,29 @@ class FileUploadController extends Controller
 
     public  function dashboard_images(Request $request)
     {
-        $path = storage_path('tmp/uploads');
+    $path = storage_path('tmp/uploads');
 
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
+    if (!file_exists($path)) {
+        mkdir($path, 0777, true);
+    }
 
-        $file = $request->file('file');
+    $file = $request->file('file');
 
-        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+    $name = uniqid() . '_' . trim($file->getClientOriginalName());
 
-        $file->move($path, $name);
+    // Обрежьте изображение до размера 1280x1280
+    $image = Image::make($file);
+    $image->fit(1280, 1280, function ($constraint) {
+        $constraint->aspectRatio();
+    });
 
-        return response()->json([
-            'name'          => $name,
-            'original_name' => $file->getClientOriginalName(),
-        ]);
+    // Сохраните обрезанное изображение в указанный путь
+    $image->save($path . '/' . $name);
+
+    return response()->json([
+        'name'          => $name,
+        'original_name' => $file->getClientOriginalName(),
+    ]);
     }
     /**
      * File Upload Method

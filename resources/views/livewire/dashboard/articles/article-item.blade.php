@@ -4,8 +4,8 @@
     </td>
     <td class="col-1">
         @if($article->image)
-            <div class="card" style="background-image: url({{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}); background-size: cover; height: 96px;">
-            </div>
+			<div class="card" style="background-image: url('{{ strpos($article->image, 'storage') !== false ? $article->image : '/storage'.$article->image }}');  background-size: contain; height: 96px;background-repeat: no-repeat;background-position: center;">
+		</div>
         @endif
     </td>
     <td class="col-6">

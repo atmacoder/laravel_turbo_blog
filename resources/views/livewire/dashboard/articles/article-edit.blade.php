@@ -4,7 +4,7 @@
             var uploadedDocumentMap = {}
             Dropzone.options.documentDropzone = {
                 url: '{{ route('dashboard_images') }}',
-                maxFilesize: 2, // MB
+                maxFilesize: 15, // MB
                 addRemoveLinks: true,
                 dictDefaultMessage: "{{__('main.upload_image_here')}}",
                 headers: {
@@ -39,7 +39,7 @@
             }
         </script>
         @livewire('elements.delete-article-modal')
-        <form wire:submit.prevent="updateArticle">
+       
 
             <div wire:loading.delay>
                 @include('elements.loader')
@@ -204,7 +204,7 @@
                 <i class="fa-solid fa-trash" aria-hidden="true"></i>
             </button>
             <button type="submit" class="btn btn-primary mt-2">{{__('main.update_article')}}</button>
-        </form>
+        
         <div class="row">
             @if($images)
                 <h5 class="mt-2" for="images">{{__('main.images')}}</h5>

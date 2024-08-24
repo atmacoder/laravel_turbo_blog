@@ -1,11 +1,10 @@
 <div class="menu-container">
     @foreach ($menuItems as $item)
-
         @if (!$item->is_divider)
-            @if ($item->categories->count() > 0)
+            @if ($item->type === 'category-group')
                 <div class="dropdown">
                     <button
-                        class="btn {{ $settings['data']['class_main_buttons'] }} dropdown-toggle @if(isset($active) && $active) active @endif"
+                        class="btn {{ $settings['data']['class_main_buttons'] }} dropdown-toggle @if(isset($active) && ($active == $item->slug || ($item->category && $active == $item->category->slug) || ($item->article && $active == $item->article->slug))) active @endif"
                         type="button" id="dropdownMenuButton{{ $item->id }}" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         {{ $item->name }}
@@ -13,8 +12,8 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $item->id }}">
                         @foreach ($item->categories as $category)
                             <a class="dropdown-item @if($category->slug == request()->path()) active @endif"
-                               href="{{ (string) url($category->slug) }}"
-                               data-current-url="{{ (string) url($category->slug) }}">{{ $category->title }}</a>
+                               href="{{ url($category->slug) }}"
+                               data-current-url="{{ url($category->slug) }}">{{ $category->title }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -23,12 +22,36 @@
                     class="btn {{ $settings['data']['class_main_buttons'] }} @if(isset($active) && $active) active @endif">
                     <a href="{{ url($item->category->slug) }}">{{ $item->name }}</a>
                 </button>
-            @else
+            @elseif ($item->type === 'link')
                 <button
-                    class="menu-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded @if(isset($active) && $active) active @endif"
+                    class="btn {{ $settings['data']['class_main_buttons'] }} @if(isset($active) && $active) active @endif"
                     type="button">
-                    {{ $item->name }}
+                    <a href="{{ $item->url }}">{{ $item->name }}</a>
                 </button>
+            @elseif ($item->type === 'article-group')
+                @if (count($item->articles) === 1)
+                    <button
+                        class="btn {{ $settings['data']['class_main_buttons'] }} @if(isset($active) && ($active == $item->slug || ($item->category && $active == $item->category->slug) || ($item->article && $active == $item->article->slug))) active @endif"
+                        type="button">
+                        <a href="{{ url($item->articles->first()->category->slug . '/' . $item->articles->first()->slug) }}">{{ $item->name }}</a>
+                    </button>
+                @else
+                    <div class="dropdown">
+                        <button
+                            class="btn {{ $settings['data']['class_main_buttons'] }} dropdown-toggle @if(isset($active) && ($active == $item->slug || ($item->category && $active == $item->category->slug) || ($item->article && $active == $item->article->slug))) active @endif"
+                            type="button" id="dropdownMenuButton{{ $item->id }}" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            {{ $item->name }}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $item->id }}">
+                            @foreach ($item->articles as $article)
+                                <a class="dropdown-item @if($article->slug == request()->path()) active @endif"
+                                   href="{{ url($article->category->slug . '/' . $article->slug) }}"
+                                   data-current-url="{{ url($article->category->slug . '/' . $article->slug) }}">{{ $article->title }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             @endif
         @endif
     @endforeach

@@ -386,6 +386,15 @@
         <hr />
         <div class="form-group mt-2 mb-2">
             <div class="row">
+                <div class="form-group mt-2 mb-2" wire:ignore>
+                    <label for="document">{{ __('main.site_logo') }}</label>
+                    <div class="needsclick dropzone" id="document-dropzone">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-2 mb-2">
+            <div class="row">
                 <div class="col-md-3">
                     <label for="colorInput19">{{ __('main.background_header') }}</label>
                     @if(isset($designSettings['imageBackgroundHeader']))
@@ -430,9 +439,54 @@
 <script>
 
     document.querySelector('.picture-container').addEventListener('click', function () {
+        console.log(document.querySelector('#document-dropzone'));
         document.querySelector('#document-dropzone').click();
     });
 
+</script>
+<script>
+    var uploadedDocumentMap = {}
+    Dropzone.options.documentDropzone = {
+        url: '{{ route('dashboard_images') }}',
+        maxFilesize: 2, // MB
+        addRemoveLinks: true,
+        dictDefaultMessage: "{{__('main.upload_image_here')}}",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        success: function (file, response) {
+            // $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + response.name + '">')
+        @this.setImages(response.name);
+            uploadedDocumentMap[file.name] = response.name
+        },
+        removedfile: function (file) {
+            file.previewElement.remove()
+            var name = ''
+            if (typeof file.file_name !== 'undefined') {
+                name = file.file_name
+            } else {
+                name = uploadedDocumentMap[file.name]
+            }
+            $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+        },
+        init: function () {
+            @if(isset($project) && $project->document)
+            var files =
+                {!! json_encode($project->document) !!}
+                for(
+            var i
+        in
+            files
+        )
+            {
+                var file = files[i]
+                this.options.addedfile.call(this, file)
+                file.previewElement.classList.add('dz-complete')
+                $('form').append('<input type="hidden" wire:model.lazy="images" name="images[]" value="' + file.file_name + '">')
+            }
+            @endif
+        }
+    }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.5.1/jscolor.min.js"></script>
 <script src="{{ asset('js/xncolorpicker.min.js') }}"></script>

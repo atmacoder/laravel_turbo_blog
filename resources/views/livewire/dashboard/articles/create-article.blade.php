@@ -115,7 +115,10 @@
             extraPlugins:'codesnippet',
             extraPlugins: 'image2',
             extraPlugins:'justify',
-            codeSnippetTheme:'monokia_sublime'
+            codeSnippetTheme:'monokia_sublime',
+            config: {
+                versionCheck: false
+            }
         });
 
         editor.on('change', function(event){
@@ -126,7 +129,15 @@
 
         for (let key in  editors) {
             if (editors[key]['type']== "textarea") {
-                const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']));
+                const neweditor = CKEDITOR.replace(document.querySelector('#extendedTypes-' + editors[key]['id']),{
+                    extraPlugins:'codesnippet',
+                    extraPlugins: 'image2',
+                    extraPlugins:'justify',
+                    codeSnippetTheme:'monokia_sublime',
+                    config: {
+                        versionCheck: false
+                    }
+                });
                 neweditor.setData(editors[key]['value']);
                 neweditor.on('change', function(event){
                 @this.set('extendedTypes.'+key+'.value', event.editor.getData());

@@ -14,7 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"
             data-turbolinks-track="reload"></script>
-    <script src="https://cdn.ckeditor.com/4.20.1/full/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles

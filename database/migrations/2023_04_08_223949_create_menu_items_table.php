@@ -19,10 +19,11 @@ class CreateMenuItemsTable extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('type')->nullable();
+            $table->string('url')->nullable();
             $table->boolean('is_divider')->default(0);
             $table->integer('order')->default(0);
             $table->timestamps();
-        });       
+        });
     }
 
     /**

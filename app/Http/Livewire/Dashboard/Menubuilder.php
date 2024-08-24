@@ -5,103 +5,143 @@ namespace App\Http\Livewire\Dashboard;
 use App\Models\Category;
 use App\Models\MenuItem;
 use App\Models\CategoryMenuItem;
+use App\Models\Article;
+use App\Models\ArticleMenuItem;
 use Livewire\Component;
 
 class Menubuilder extends Component
 {
     public $menuItems;
     public $categories;
+    public $articles;
     public $menuItem;
     public $name;
     public $type;
     public $parent_id;
     public $category_id;
+    public $url = '';
+
+
     public $editing = false;
     public $category_ids = [];
+    public $article_ids = [];
 
     public function mount()
     {
         $this->categories = Category::all();
         $this->menuItems = MenuItem::all();
         $this->menuItem = new MenuItem();
+        $this->articles = Article::all();
     }
 
     public function render()
     {
         return view('livewire.dashboard.menubuilder', [
             'category_ids' => $this->category_ids,
+            'article_ids' => $this->article_ids,
         ]);
     }
 
     public function save()
     {
         try {
+            // Set the type before validation
             if ($this->editing) {
-                $this->menuItem->update($this->validate());
+                $this->menuItem->type = $this->type;
             } else {
-                $this->menuItem->type = $this->type; // Set the type before saving
+                $this->menuItem->type = $this->type;
+            }
 
-                if ($this->type === 'category') {
-                    $menuItem = new MenuItem(); // Create a new MenuItem instance
-                    $menuItem->name = $this->name; // Set the name
-                    $menuItem->type = $this->type; // Set the type
-                    $menuItem->category_id = $this->category_ids[0]; // Set the category ID
-                    $menuItem->save(); // Save the new menu item
-                } else if ($this->type === 'category-group') {
-                    $menuItem = MenuItem::create([
-                        'name' => $this->name, // Set the name before saving
-                        'type' => 'category-group',
-                    ]);
+            $validatedData = $this->validate([
+                'name' => 'required|string',
+                'type' => 'required|string',
+                'category_ids' => 'nullable|array',
+                'article_ids' => 'nullable|array',
+                'url' => 'nullable|string',
+            ]);
 
-                    foreach ($this->category_ids as $category_id) {
+            if ($this->editing) {
+                // Update existing MenuItem
+                $this->menuItem->update($validatedData);
+            } else {
+                // Create new MenuItem
+                $menuItem = MenuItem::create([
+                    'name' => $validatedData['name'],
+                    'type' => $validatedData['type'],
+                    'url' => $validatedData['url'],
+                ]);
+
+                // Associate categories (if applicable)
+                if ($validatedData['type'] === 'category-group') {
+                    foreach ($validatedData['category_ids'] as $category_id) {
                         CategoryMenuItem::create([
                             'menu_item_id' => $menuItem->id,
                             'category_id' => $category_id,
                         ]);
                     }
-                } else {
-                    $this->menuItem->name = $this->name; // Set the name before saving
-                    $this->menuItem->save(); // Save the individual menu item
+                }
+
+                // Associate articles (if applicable)
+                if ($validatedData['type'] === 'article-group') {
+                    foreach ($validatedData['article_ids'] as $article_id) {
+                        ArticleMenuItem::create([
+                            'menu_item_id' => $menuItem->id,
+                            'article_id' => $article_id,
+                        ]);
+                    }
                 }
             }
 
             $this->menuItems = MenuItem::all();
-            $this->reset('name', 'type', 'category_id', 'parent_id');
+            $this->reset('name', 'type', 'category_id', 'parent_id', 'article_ids', 'category_ids');
+            $this->editing = false;
+
         } catch (\Exception $e) {
-            dd($e->getMessage()); // Display the error message for debugging
+            dd($e->getMessage());
         }
     }
+
     public function edit($id)
     {
-        $menuItem = MenuItem::find($id);
+        $this->menuItem = MenuItem::find($id);
+        $this->name = $this->menuItem->name;
+        $this->type = $this->menuItem->type;
+        $this->category_ids = $this->menuItem->categories->pluck('id')->toArray();
+        $this->article_ids = $this->menuItem->articles->pluck('id')->toArray();
+        $this->editing = true;
 
-        $this->emit('editMenuItem', $menuItem);
-        //$this->editing = true;
+        // Pass data to the editMenuItem event as an array
+        $this->emit('editMenuItem', $this->menuItem->id, $this->category_ids, $this->article_ids);
     }
 
     public function cancel()
     {
         $this->editing = false;
         $this->menuItem = new MenuItem();
+        $this->reset('name', 'type', 'category_id', 'parent_id', 'article_ids', 'category_ids');
     }
 
     protected $listeners = [
         'menuItemDeleted' => 'refreshMenuItems',
-        'editMenuItem' => 'loadMenuItem'
+        'editMenuItem' => 'loadMenuItem',
+        'menuItemUpdated' => 'refreshMenuItems',
     ];
 
     public function refreshMenuItems()
     {
         $this->menuItems = MenuItem::all();
     }
-    public function loadMenuItem(MenuItem $menuItem)
+
+    public function loadMenuItem($id, array $category_ids, array $article_ids)
     {
-        $this->menuItem = $menuItem;
-        $this->name = $menuItem->name;
-        $this->type = $menuItem->type;
-        $this->category_ids = $menuItem->categories->pluck('id')->toArray();
+        $this->menuItem = MenuItem::find($id);
+        $this->name = $this->menuItem->name;
+        $this->type = $this->menuItem->type;
+        $this->category_ids = $category_ids;
+        $this->article_ids = $article_ids;
         $this->editing = true;
     }
+
     public function updatedMenuItem()
     {
         // Refresh the menu items list
@@ -110,10 +150,15 @@ class Menubuilder extends Component
         // Reset the editing state
         $this->editing = false;
     }
+
     public function delete($id)
     {
         $menuItem = MenuItem::find($id);
         $menuItem->delete();
+
+        // Refresh menuItems only after deleting
+        $this->menuItems = MenuItem::all();
+        $this->reset('category_ids', 'article_ids'); // Reset after deleting
 
         $this->emit('menuItemDeleted');
     }
@@ -124,6 +169,8 @@ class Menubuilder extends Component
             'name' => 'required|string',
             'type' => 'required|string',
             'category_ids' => 'nullable|array',
+            'article_ids' => 'nullable|array',
+            'url' => 'nullable|string',
         ];
     }
 

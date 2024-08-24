@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Main;
 use App\Models\Settings;
 use Livewire\Component;
 use App\Models\MenuItem;
+use App\Models\Category;
+use App\Models\Article;
 
 class Menu extends Component
 {
@@ -13,10 +15,13 @@ class Menu extends Component
 
     public function render()
     {
-        $menuItems = MenuItem::orderBy('order')->with('category')->get();
+        $menuItems = MenuItem::orderBy('order')
+            ->with(['category', 'articles'])
+            ->get();
 
         return view('livewire.main.menu', [
             'menuItems' => $menuItems,
+            'settings' => $this->settings, // Pass settings to the view
         ]);
     }
 
@@ -25,5 +30,4 @@ class Menu extends Component
         $this->active = request()->path();
         $this->settings = Settings::first();
     }
-
 }
